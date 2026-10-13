@@ -1,1074 +1,1234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wave Optics: Huygens' Principle Simulation (CBSE Class 12)</title>
-
-  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBSE Class 12 Wave Optics: Huygens' Principle Simulation</title>
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#f0f9ff',
-              500: '#0284c7',
-              600: '#0369a1',
-              900: '#0c4a6e'
-            }
-          }
-        }
-      }
-    };
-  </script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- KaTeX core CSS & JS with auto-render extension -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
 
   <style>
-    .math-display {
-      overflow-x: auto;
-      padding: 0.35rem 0;
-      scrollbar-width: thin;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap');
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .font-mono-code {
+      font-family: 'Fira Code', monospace;
+    }
+    input[type=range] {
+      accent-color: #0284c7;
     }
     .katex {
-      font-size: 1.05em !important;
+      font-size: 1.05em;
+      text-rendering: optimizeLegibility;
+    }
+    .katex-display {
+      margin: 0.4em 0 !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0.2rem 0;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans select-none antialiased">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-cyan-600 selection:text-white">
 
-  <!-- Header -->
-  <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 px-4 py-3 flex flex-wrap items-center justify-between gap-3 sticky top-0 z-40">
-    <div class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
+  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40 px-4 py-2.5 sm:px-6 shadow-md">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-3">
+        <div class="p-2.5 bg-cyan-600/20 text-cyan-400 rounded-xl border border-cyan-500/30 shadow-inner">
+          <i data-lucide="waves" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            Huygens' Principle Simulation
+            <span class="text-[11px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-medium">CBSE Class 12 NCERT</span>
+          </h1>
+          <p class="text-xs text-slate-400 flex items-center gap-1.5 flex-wrap">
+            <span>Wave Optics &bull; Proof of Laws of Reflection</span>
+            <span class="math-tex inline-block text-amber-300" data-math="i = r"></span>
+            <span>&amp; Refraction</span>
+            <span class="math-tex inline-block text-cyan-300" data-math="\frac{\sin i}{\sin r} = \frac{n_2}{n_1} = n_{21}"></span>
+          </p>
+        </div>
       </div>
-      <div>
-        <h1 class="font-bold text-base md:text-lg leading-tight text-white flex items-center gap-2">
-          Huygens' Principle Simulation
-          <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-cyan-900/70 text-cyan-300 border border-cyan-700/50">CBSE Class 12</span>
-        </h1>
-        <p class="text-xs text-slate-400">Wave Optics: Verification of Laws of Reflection & Refraction</p>
-      </div>
-    </div>
 
-    <!-- Mode Selector & Derivations Button -->
-    <div class="flex items-center gap-2 flex-wrap">
-      <div class="bg-slate-800 p-1 rounded-xl flex border border-slate-700">
-        <button id="btn-mode-refl" class="px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all bg-cyan-500 text-white shadow">
-          Reflection (∠i = ∠r)
+      <!-- Mode Selector & Derivations Modal Button -->
+      <div class="flex items-center gap-2 bg-slate-800/80 p-1 rounded-xl border border-slate-700/60 shadow-inner">
+        <button id="tab-refraction" onclick="setMode('refraction')" class="px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 bg-cyan-600 text-white shadow-sm flex items-center gap-1.5">
+          <i data-lucide="split" class="w-4 h-4"></i>
+          <span>Refraction</span>
+          <span class="math-tex text-xs" data-math="(n_1\sin i = n_2\sin r)"></span>
         </button>
-        <button id="btn-mode-refr" class="px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all text-slate-300 hover:text-white">
-          Refraction (Snell's Law)
+        <button id="tab-reflection" onclick="setMode('reflection')" class="px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 text-slate-300 hover:text-white flex items-center gap-1.5">
+          <i data-lucide="flip-horizontal" class="w-4 h-4"></i>
+          <span>Reflection</span>
+          <span class="math-tex text-xs" data-math="(i = r)"></span>
+        </button>
+        <button onclick="toggleTheoryModal(true)" class="px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700/60 flex items-center gap-1.5">
+          <i data-lucide="book-open" class="w-4 h-4"></i>
+          <span>NCERT Proofs</span>
         </button>
       </div>
 
-      <button id="btn-open-deriv" class="px-3 py-1.5 text-xs md:text-sm rounded-xl font-medium bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-800/60 transition flex items-center gap-1.5">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-        <span>NCERT Derivation</span>
-      </button>
     </div>
   </header>
 
-  <!-- Main Body Grid -->
-  <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 p-3 md:p-4 max-w-[1700px] w-full mx-auto">
+  <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-5">
     
-    <!-- Simulation Canvas Column -->
+    <!-- LEFT PANEL: Simulation Canvas & Controls (8 cols) -->
     <div class="lg:col-span-8 flex flex-col gap-3">
-      <div class="relative bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl flex-1 flex flex-col min-h-[440px] md:min-h-[520px]">
+      
+      <!-- Interactive Canvas Wrapper -->
+      <div class="relative bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex-1 min-h-[490px] flex flex-col">
         
-        <!-- Live Status Overlay -->
-        <div class="absolute top-3 left-3 z-20 flex flex-wrap items-center gap-2 pointer-events-none">
-          <div id="status-badge" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-950/80 backdrop-blur border border-cyan-500/30 text-cyan-300 shadow">
-            Phase: Wavefront Approaching
+        <!-- Status Badges Overlay -->
+        <div class="absolute top-3 left-4 z-10 flex flex-wrap gap-2 pointer-events-none items-center">
+          <span id="badge-mode" class="px-2.5 py-1 text-xs font-semibold rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 backdrop-blur shadow flex items-center gap-1"></span>
+          <span id="badge-tir" class="hidden px-2.5 py-1 text-xs font-semibold rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/30 backdrop-blur shadow flex items-center gap-1 animate-pulse"></span>
+        </div>
+
+        <div class="absolute top-3 right-4 z-10 flex items-center gap-2">
+          <button onclick="toggleTheoryModal(true)" class="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg border border-slate-700 text-xs flex items-center gap-1.5 transition backdrop-blur shadow">
+            <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+            <span>Derivations Guide</span>
+          </button>
+        </div>
+
+        <!-- HTML5 Simulation Canvas -->
+        <canvas id="simCanvas" class="w-full h-full flex-1 cursor-crosshair"></canvas>
+
+        <!-- Dynamic Timeline Phasing Bar -->
+        <div class="bg-slate-950/90 backdrop-blur px-4 py-2.5 border-t border-slate-800 text-xs flex flex-wrap justify-between items-center text-slate-300 gap-2 min-h-[46px]">
+          <div class="flex items-center gap-2 flex-1">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+            <div id="state-description" class="text-slate-200"></div>
           </div>
-          <div id="tir-badge" class="hidden px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-950/90 border border-amber-500 text-amber-300 shadow animate-pulse">
-            Total Internal Reflection (i &gt; i<sub>c</sub>)
+          <div class="font-mono-code text-cyan-400 text-xs font-semibold flex-shrink-0 bg-slate-900 px-2 py-1 rounded border border-slate-800" id="time-readout"></div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-col gap-3">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+          
+          <!-- Play / Step / Reset / Tau Snap -->
+          <div class="flex items-center gap-2 w-full sm:w-auto justify-center sm:justify-start">
+            <button id="btn-play" onclick="togglePlay()" class="p-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl shadow transition flex items-center justify-center gap-2 font-medium text-xs px-4">
+              <i data-lucide="play" id="play-icon" class="w-4 h-4 fill-white"></i>
+              <span id="play-text">Play</span>
+            </button>
+            <button onclick="stepForward()" title="Step Forward (+0.05tau)" class="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl border border-slate-700 transition">
+              <i data-lucide="step-forward" class="w-4 h-4"></i>
+            </button>
+            <button onclick="resetSimulation()" title="Reset to t = 0" class="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl border border-slate-700 transition">
+              <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+            </button>
+            <button onclick="snapToTau()" title="Snap to t = tau (Tangent Touch)" class="px-3.5 py-2.5 bg-indigo-950/70 hover:bg-indigo-900/80 border border-indigo-700/60 text-indigo-300 rounded-xl text-xs font-semibold transition flex items-center gap-1.5">
+              <span>Jump to</span>
+              <span class="math-tex" data-math="t = \tau"></span>
+            </button>
+          </div>
+
+          <!-- Speed Controls -->
+          <div class="flex items-center gap-2 text-xs text-slate-400">
+            <span>Speed:</span>
+            <button onclick="setSimSpeed(0.5)" id="spd-05" class="px-2 py-1 rounded bg-slate-800 border border-slate-700 hover:bg-slate-700 transition">0.5x</button>
+            <button onclick="setSimSpeed(1.0)" id="spd-10" class="px-2 py-1 rounded bg-cyan-600 text-white border border-cyan-500 transition">1.0x</button>
+            <button onclick="setSimSpeed(2.0)" id="spd-20" class="px-2 py-1 rounded bg-slate-800 border border-slate-700 hover:bg-slate-700 transition">2.0x</button>
           </div>
         </div>
 
-        <canvas id="simCanvas" class="w-full h-full flex-1 block cursor-crosshair"></canvas>
-
-        <!-- Legend / Diagram Indicator Overlay -->
-        <div class="absolute bottom-3 left-3 right-3 z-20 pointer-events-none flex flex-wrap justify-between items-end gap-2 text-[11px] text-slate-300">
-          <div class="bg-slate-950/85 backdrop-blur px-3 py-1.5 rounded-xl border border-slate-800 flex items-center gap-3">
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span> Incident Front (AB)</span>
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Secondary Wavelets</span>
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Envelope Front (CE)</span>
+        <!-- Continuous Scrubber Bar -->
+        <div class="flex items-center gap-3 pt-1">
+          <span class="text-xs font-mono-code text-slate-400 whitespace-nowrap math-tex" data-math="t = 0"></span>
+          <div class="relative flex-1">
+            <input type="range" id="timeSlider" min="0" max="2.0" step="0.005" value="0" class="w-full h-2 bg-slate-800 rounded-lg cursor-pointer" oninput="onTimeSliderChange(this.value)">
+            <!-- Tau Marker Indicator -->
+            <div class="absolute top-1/2 -translate-y-1/2 left-[50%] pointer-events-none transform -translate-x-1/2 flex flex-col items-center">
+              <span class="w-1.5 h-3 bg-amber-400 rounded-sm opacity-90 shadow" title="t = tau"></span>
+            </div>
           </div>
-          <div class="bg-slate-950/85 backdrop-blur px-2.5 py-1 rounded-lg border border-slate-800 font-mono text-[11px] text-cyan-400">
-            t = <span id="time-val-readout">0.00</span> &tau;
-          </div>
+          <span class="text-xs font-mono-code text-slate-400 whitespace-nowrap math-tex" data-math="t = 2\tau"></span>
         </div>
       </div>
 
-      <!-- Playback and Scrubbing Controls -->
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3 md:p-4 shadow-xl flex flex-col gap-3">
-        <div class="flex items-center gap-3">
-          <button id="btn-play" class="w-10 h-10 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 flex items-center justify-center font-bold shadow-lg shadow-cyan-500/25 transition">
-            <svg id="icon-play" class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <svg id="icon-pause" class="w-5 h-5 fill-current hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-          </button>
-          
-          <button id="btn-step" title="Step forward 0.05&tau;" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition">
-            Step (+0.05&tau;)
-          </button>
-          
-          <button id="btn-snap-tau" title="Snap to t = &tau;" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-600/40 text-xs font-semibold transition">
-            Snap to t = &tau;
-          </button>
-          
-          <button id="btn-reset" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition">
-            Reset (t = 0)
-          </button>
-
-          <!-- Timeline Slider -->
-          <div class="flex-1 flex items-center gap-3 ml-2">
-            <span class="text-xs font-mono text-slate-400">0</span>
-            <input id="time-slider" type="range" min="0" max="2" step="0.005" value="0" class="flex-1 accent-cyan-400 h-2 bg-slate-800 rounded-lg cursor-pointer" />
-            <span class="text-xs font-mono text-slate-400">2&tau;</span>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- Settings & Live Mathematical Proof Column -->
-    <div class="lg:col-span-4 flex flex-col gap-3">
+    <div class="lg:col-span-4 flex flex-col gap-4">
       
-      <!-- Interactive Variables Panel -->
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col gap-4">
-        <h2 class="font-bold text-sm uppercase tracking-wider text-slate-400 flex items-center justify-between border-b border-slate-800 pb-2">
-          <span>Parameters &amp; Angles</span>
-          <span class="text-[11px] font-normal text-cyan-400">NCERT Conventions</span>
+      <!-- Wave & Medium Parameters Card -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-col gap-4">
+        <h2 class="text-xs font-semibold tracking-wider uppercase text-slate-400 flex items-center justify-between border-b border-slate-800 pb-2">
+          <span>Wave Parameters</span>
+          <i data-lucide="sliders" class="w-4 h-4 text-slate-500"></i>
         </h2>
 
-        <!-- Angle of Incidence Slider -->
-        <div class="flex flex-col gap-1.5">
+        <!-- Angle of incidence (i) Slider -->
+        <div class="space-y-1.5">
           <div class="flex justify-between items-center text-xs">
-            <span class="text-slate-300 font-medium">Angle of Incidence (<span id="eq-i-label"></span>):</span>
-            <span id="label-i-val" class="font-mono text-cyan-300 font-bold text-sm">45.0°</span>
+            <span class="text-slate-300 font-medium flex items-center gap-1">
+              <span>Angle of Incidence</span>
+              <span class="math-tex text-amber-400" data-math="(i)"></span>:
+            </span>
+            <span class="font-mono-code text-amber-400 font-bold" id="val-angle-i">45.0°</span>
           </div>
-          <input id="slider-i" type="range" min="15" max="75" step="0.5" value="45" class="w-full accent-cyan-400 h-2 bg-slate-800 rounded cursor-pointer" />
-          <div class="flex justify-between text-[10px] text-slate-500 font-mono">
-            <span>15°</span><span>45°</span><span>75°</span>
-          </div>
-        </div>
-
-        <!-- Medium Refractive Indices (Active in Refraction Mode) -->
-        <div id="refraction-settings" class="flex flex-col gap-3 pt-2 border-t border-slate-800/80">
-          <div class="flex flex-col gap-1.5">
-            <div class="flex justify-between items-center text-xs">
-              <span class="text-slate-300">Medium 1 Index (<span id="eq-n1-label"></span>):</span>
-              <span id="label-n1-val" class="font-mono text-cyan-300 font-semibold">1.00 (Air)</span>
-            </div>
-            <input id="slider-n1" type="range" min="1.0" max="2.42" step="0.01" value="1.0" class="w-full accent-cyan-400 h-2 bg-slate-800 rounded cursor-pointer" />
-          </div>
-
-          <div class="flex flex-col gap-1.5">
-            <div class="flex justify-between items-center text-xs">
-              <span class="text-slate-300">Medium 2 Index (<span id="eq-n2-label"></span>):</span>
-              <span id="label-n2-val" class="font-mono text-cyan-300 font-semibold">1.50 (Glass)</span>
-            </div>
-            <input id="slider-n2" type="range" min="1.0" max="2.42" step="0.01" value="1.50" class="w-full accent-cyan-400 h-2 bg-slate-800 rounded cursor-pointer" />
+          <input type="range" id="slider-i" min="15" max="75" step="0.5" value="45" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer" oninput="updateAngleI(this.value)">
+          <div class="flex justify-between text-[10px] text-slate-500">
+            <span>15° (Near Normal)</span>
+            <span>45°</span>
+            <span>75° (Grazing)</span>
           </div>
         </div>
 
-        <!-- Visual Element Toggles -->
-        <div class="pt-2 border-t border-slate-800 flex flex-col gap-2">
-          <div class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Visibility Toggles</div>
+        <!-- Refraction Media Indices (Shown in Refraction mode) -->
+        <div id="refraction-controls" class="space-y-3 pt-2 border-t border-slate-800/80">
+          <div class="space-y-1">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-300 font-medium flex items-center gap-1">
+                <span>Medium 1 Index</span>
+                <span class="math-tex text-sky-400" data-math="(n_1)"></span>:
+              </span>
+              <span class="font-mono-code text-sky-400 font-bold" id="val-n1">1.00</span>
+            </div>
+            <input type="range" id="slider-n1" min="1.0" max="2.42" step="0.01" value="1.00" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer" oninput="updateN1(this.value)">
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-slate-300 font-medium flex items-center gap-1">
+                <span>Medium 2 Index</span>
+                <span class="math-tex text-indigo-400" data-math="(n_2)"></span>:
+              </span>
+              <span class="font-mono-code text-indigo-400 font-bold" id="val-n2">1.50</span>
+            </div>
+            <input type="range" id="slider-n2" min="1.0" max="2.42" step="0.01" value="1.50" class="w-full h-1.5 bg-slate-800 rounded-lg cursor-pointer" oninput="updateN2(this.value)">
+          </div>
+
+          <!-- Velocity Ratio Indicator -->
+          <div class="flex justify-between items-center text-[11px] bg-slate-950/60 p-2 rounded-lg border border-slate-800 font-mono-code">
+            <span class="text-slate-400 flex items-center gap-1">
+              <span>Velocity Ratio</span>
+              <span class="math-tex" data-math="\frac{v_1}{v_2} = \frac{n_2}{n_1}"></span>:
+            </span>
+            <span class="text-emerald-400 font-bold" id="val-vratio">1.500</span>
+          </div>
+
+          <!-- Quick Optical Presets -->
+          <div class="space-y-1.5 pt-1">
+            <span class="text-[10px] uppercase font-semibold text-slate-500 block">CBSE Benchmark Media:</span>
+            <div class="grid grid-cols-2 gap-1.5 text-xs">
+              <button onclick="setPresets(1.0, 1.33)" class="py-1 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-[11px] text-center transition">
+                Air &rarr; Water (1.33)
+              </button>
+              <button onclick="setPresets(1.0, 1.50)" class="py-1 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-[11px] text-center transition">
+                Air &rarr; Glass (1.50)
+              </button>
+              <button onclick="setPresets(1.50, 1.00)" class="py-1 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-rose-300 text-[11px] text-center transition">
+                Glass &rarr; Air (TIR)
+              </button>
+              <button onclick="setPresets(1.0, 2.42)" class="py-1 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-[11px] text-center transition">
+                Air &rarr; Diamond (2.42)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-slate-800/80 pt-3 space-y-2">
+          <span class="text-xs font-semibold text-slate-400 block mb-1">NCERT Visual Elements:</span>
           <div class="grid grid-cols-2 gap-2 text-xs">
-            <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
-              <input id="chk-wavelets" type="checkbox" checked class="accent-cyan-400 rounded" />
-              <span>Wavelet Arcs</span>
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="chk-wavelets" checked class="rounded border-slate-700 bg-slate-800 text-cyan-600 focus:ring-0">
+              <span class="text-slate-300 text-[11px]">Secondary Arcs</span>
             </label>
-            <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
-              <input id="chk-envelope" type="checkbox" checked class="accent-cyan-400 rounded" />
-              <span>Tangent Envelope</span>
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="chk-envelope" checked class="rounded border-slate-700 bg-slate-800 text-cyan-600 focus:ring-0">
+              <span class="text-slate-300 text-[11px] flex items-center gap-1">
+                <span>Envelope</span>
+                <span class="math-tex" data-math="CE"></span>
+              </span>
             </label>
-            <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
-              <input id="chk-rays" type="checkbox" checked class="accent-cyan-400 rounded" />
-              <span>Light Rays</span>
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="chk-normals" checked class="rounded border-slate-700 bg-slate-800 text-cyan-600 focus:ring-0">
+              <span class="text-slate-300 text-[11px] flex items-center gap-1">
+                <span>Normals at</span>
+                <span class="math-tex" data-math="A, C"></span>
+              </span>
             </label>
-            <label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
-              <input id="chk-triangles" type="checkbox" checked class="accent-cyan-400 rounded" />
-              <span>NCERT Triangles</span>
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="chk-rays" checked class="rounded border-slate-700 bg-slate-800 text-cyan-600 focus:ring-0">
+              <span class="text-slate-300 text-[11px] flex items-center gap-1">
+                <span>Wave Rays</span>
+                <span class="math-tex" data-math="(\perp)"></span>
+              </span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="chk-triangles" checked class="rounded border-slate-700 bg-slate-800 text-cyan-600 focus:ring-0">
+              <span class="text-slate-300 text-[11px] flex items-center gap-1">
+                <span class="math-tex" data-math="\Delta ABC, \Delta AEC"></span>
+              </span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="chk-labels" checked class="rounded border-slate-700 bg-slate-800 text-cyan-600 focus:ring-0">
+              <span class="text-slate-300 text-[11px] flex items-center gap-1">
+                <span>Labels</span>
+                <span class="math-tex" data-math="A, B, C, E"></span>
+              </span>
             </label>
           </div>
         </div>
       </div>
 
-      <!-- Real-Time Proof Box -->
-      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl flex-1 flex flex-col justify-between">
-        <div>
-          <h2 class="font-bold text-sm uppercase tracking-wider text-slate-400 flex items-center justify-between border-b border-slate-800 pb-2">
-            <span>Mathematical Proof</span>
-            <span id="proof-badge" class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700">Valid</span>
-          </h2>
-          
-          <div id="live-proof-content" class="mt-3 text-xs leading-relaxed space-y-2">
-            <!-- Dynamically populated via KaTeX in updateMathProof() -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg flex flex-col gap-3">
+        <h2 class="text-xs font-semibold tracking-wider uppercase text-slate-400 flex items-center justify-between border-b border-slate-800 pb-2">
+          <span>Live Proof &amp; Verification</span>
+          <div id="law-title" class="text-xs font-semibold text-cyan-400"></div>
+        </h2>
+
+        <!-- Numerical Values Readouts -->
+        <div class="grid grid-cols-2 gap-2 text-xs bg-slate-950/70 p-2.5 rounded-xl border border-slate-800">
+          <div>
+            <span class="text-slate-400 block text-[10px] flex items-center gap-1">
+              <span>Incidence angle</span>
+              <span class="math-tex" data-math="i"></span>:
+            </span>
+            <span id="readout-i" class="text-amber-400 font-bold font-mono-code text-sm">45.00°</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[10px] flex items-center gap-1" id="label-angle-r">
+              <span>Angle</span>
+              <span class="math-tex" data-math="r"></span>:
+            </span>
+            <span id="readout-r" class="text-emerald-400 font-bold font-mono-code text-sm">28.13°</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[10px] flex items-center gap-1">
+              <span class="math-tex" data-math="BC = v_1 \tau"></span>:
+            </span>
+            <span id="readout-bc" class="text-cyan-400 font-mono-code">180.0 px</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[10px] flex items-center gap-1" id="label-ae">
+              <span class="math-tex" data-math="AE = v_2 \tau"></span>:
+            </span>
+            <span id="readout-ae" class="text-indigo-400 font-mono-code">120.0 px</span>
           </div>
         </div>
 
-        <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400 bg-slate-950/50 p-2.5 rounded-xl border border-slate-800">
-          <strong class="text-cyan-300">CBSE Key Concept:</strong> Wavefront is perpendicular to the corresponding light rays. Every point on the advancing wavefront acts as a source of secondary spherical wavelets.
+        <!-- Dynamic KaTeX Proof Equation Box -->
+        <div class="bg-slate-800/60 border border-slate-700/60 rounded-xl p-3 text-xs">
+          <div id="katex-proof-box" class="overflow-x-auto text-slate-100 py-0.5"></div>
+        </div>
+
+        <!-- NCERT Physical Summary Box -->
+        <div class="text-xs text-slate-300 leading-relaxed bg-cyan-950/30 border border-cyan-900/50 p-2.5 rounded-xl">
+          <div id="ncert-text-summary"></div>
         </div>
       </div>
 
     </div>
   </main>
 
-  <!-- NCERT Detailed Derivation Modal -->
-  <div id="modal-deriv" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 md:p-6">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-      <div class="px-5 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/90">
+  <div id="theoryModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-5 sm:p-8 shadow-2xl relative">
+      <button onclick="toggleTheoryModal(false)" class="absolute top-4 right-4 p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="p-2.5 bg-cyan-600/20 text-cyan-400 rounded-xl border border-cyan-500/30">
+          <i data-lucide="book-open" class="w-6 h-6"></i>
+        </div>
         <div>
-          <h3 class="font-bold text-lg text-white">CBSE NCERT Derivations (Huygens' Principle)</h3>
-          <p class="text-xs text-slate-400">Class 12 Physics &bull; Chapter 10: Wave Optics</p>
+          <h2 class="text-lg sm:text-xl font-bold text-white">CBSE Class 12 Wave Optics: Huygens' Principle</h2>
+          <p class="text-xs text-slate-400">NCERT Physics Chapter 10 &bull; Derivations of Reflection &amp; Refraction</p>
         </div>
-        <button id="btn-close-modal" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition">
-          ✕
-        </button>
       </div>
 
-      <div class="p-6 overflow-y-auto space-y-6 text-sm text-slate-300 leading-relaxed">
+      <div class="space-y-5 text-xs sm:text-sm text-slate-300 leading-relaxed">
         
-        <!-- Section 1: Postulate -->
-        <div class="border border-cyan-900/40 bg-cyan-950/20 p-4 rounded-xl">
-          <h4 class="font-bold text-cyan-300 text-base mb-1">1. Huygens' Principle Postulates</h4>
-          <ol class="list-decimal pl-5 space-y-1 text-slate-300 text-xs md:text-sm">
-            <li>Each point on a primary wavefront acts as a source of secondary spherical wavelets spreading out with the speed of light in that medium.</li>
-            <li>The forward tangential surface (envelope) touching these wavelets at time $t$ gives the new position of the wavefront.</li>
-          </ol>
+        <!-- Postulates Card -->
+        <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+          <h3 class="text-sm font-semibold text-cyan-400 mb-2 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400"></span> 1. Core Postulates of Huygens' Wave Theory
+          </h3>
+          <ul class="list-disc list-inside space-y-1.5 text-slate-300 pl-1">
+            <li><strong>Wavefront:</strong> The locus of all points in a medium that vibrate with the same phase.</li>
+            <li><strong>Secondary Disturbance:</strong> Each point on a primary wavefront acts as a fresh source of secondary disturbance, sending out spherical wavelets with speed $v$ in all forward directions.</li>
+            <li><strong>Forward Envelope:</strong> The forward surface tangential to all these secondary spherical wavelets at a subsequent time $\tau$ forms the new position of the wavefront.</li>
+          </ul>
         </div>
 
-        <!-- Section 2: Reflection Proof -->
-        <div class="border border-slate-800 bg-slate-950/40 p-4 rounded-xl">
-          <h4 class="font-bold text-cyan-400 text-base mb-2">2. Huygens' Derivation of Laws of Reflection</h4>
-          <p class="text-xs md:text-sm mb-3">
-            Let a plane wavefront $AB$ be incident at angle $i$ on reflecting surface $XY$ at time $t = 0$. Let $v_1$ be the velocity of light in the medium, and let $\tau$ be the time taken for point $B$ to reach point $C$.
+        <!-- Reflection Proof Card -->
+        <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+          <h3 class="text-sm font-semibold text-emerald-400 mb-2 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 2. Huygens' Derivation of the Law of Reflection
+          </h3>
+          <p class="mb-2">
+            Consider a plane wavefront <span class="math-tex" data-math="AB"></span> incident at angle <span class="math-tex" data-math="i"></span> on reflecting surface <span class="math-tex" data-math="XY"></span>. Point <span class="math-tex" data-math="A"></span> touches the surface first at <span class="math-tex" data-math="t = 0"></span>.
           </p>
-          <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 my-2 space-y-2 text-xs md:text-sm">
-            <p>From the geometry of the triangle:</p>
-            <div class="math-display text-center">$$BC = v_1 \tau$$</div>
-            <p>During time $\tau$, the secondary wavelet from point $A$ spreads to radius $AE = v_1 \tau$. The tangent plane $CE$ represents the reflected wavefront.</p>
-            <p>In right-angled triangles $\Delta ABC$ and $\Delta AEC$:</p>
-            <div class="math-display text-center">$$\angle ABC = \angle AEC = 90^\circ$$</div>
-            <div class="math-display text-center">$$AC = AC \quad (\text{common hypotenuse})$$</div>
-            <div class="math-display text-center">$$BC = AE = v_1 \tau$$</div>
-            <p class="text-emerald-400 font-medium">By RHS congruence, $\Delta ABC \cong \Delta AEC$.</p>
-            <div class="math-display text-center">$$\angle BAC = \angle ECA \implies i = r$$</div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 my-3 bg-slate-900 p-3 rounded-lg border border-slate-800">
+            <div>
+              <p class="text-amber-400 font-bold mb-1 flex items-center gap-1">
+                <span>Incident Triangle</span> <span class="math-tex" data-math="\Delta ABC"></span>:
+              </p>
+              <p>&bull; <span class="math-tex" data-math="\angle B = 90^\circ"></span></p>
+              <p>&bull; Distance <span class="math-tex" data-math="BC = v_1 \tau"></span></p>
+              <div class="py-1">
+                <span class="math-tex" data-math="\sin i = \frac{BC}{AC} = \frac{v_1 \tau}{AC}"></span>
+              </div>
+            </div>
+            <div>
+              <p class="text-emerald-400 font-bold mb-1 flex items-center gap-1">
+                <span>Reflected Triangle</span> <span class="math-tex" data-math="\Delta AEC"></span>:
+              </p>
+              <p>&bull; <span class="math-tex" data-math="\angle E = 90^\circ"></span> (Tangent <span class="math-tex" data-math="CE"></span>)</p>
+              <p>&bull; Wavelet radius <span class="math-tex" data-math="AE = v_1 \tau"></span></p>
+              <div class="py-1">
+                <span class="math-tex" data-math="\sin r = \frac{AE}{AC} = \frac{v_1 \tau}{AC}"></span>
+              </div>
+            </div>
           </div>
-          <p class="text-xs text-slate-400 mt-2">Hence, the angle of incidence equals the angle of reflection ($i = r$), proving the first law of reflection.</p>
+          <div class="p-2.5 rounded bg-emerald-950/30 border border-emerald-800/40 text-emerald-300">
+            <p class="font-semibold mb-1">Conclusion &amp; Congruence:</p>
+            <p>
+              Since <span class="math-tex" data-math="BC = AE = v_1 \tau"></span> and hypotenuse <span class="math-tex" data-math="AC"></span> is common, by RHS congruence <span class="math-tex" data-math="\Delta ABC \cong \Delta AEC"></span>.
+              Therefore, <span class="math-tex" data-math="\angle i = \angle r"></span>, rigorously proving the law of reflection!
+            </p>
+          </div>
         </div>
 
-        <!-- Section 3: Refraction Proof -->
-        <div class="border border-slate-800 bg-slate-950/40 p-4 rounded-xl">
-          <h4 class="font-bold text-cyan-400 text-base mb-2">3. Huygens' Derivation of Snell's Law of Refraction</h4>
-          <p class="text-xs md:text-sm mb-3">
-            Let light travel from medium 1 ($v_1$, $n_1$) into medium 2 ($v_2$, $n_2$). The incident wavefront $AB$ touches boundary $XY$ at $A$ at time $t = 0$. In time $\tau$, edge $B$ reaches $C$, so $BC = v_1 \tau$.
+        <!-- Refraction Proof Card -->
+        <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800">
+          <h3 class="text-sm font-semibold text-cyan-400 mb-2 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400"></span> 3. Huygens' Derivation of Snell's Law of Refraction
+          </h3>
+          <p class="mb-2">
+            Let the speed of light in medium 1 be <span class="math-tex" data-math="v_1"></span> and in medium 2 be <span class="math-tex" data-math="v_2"></span>. In time <span class="math-tex" data-math="\tau"></span>, the wavefront reaches <span class="math-tex" data-math="C"></span> such that <span class="math-tex" data-math="BC = v_1 \tau"></span>. Meanwhile, the secondary wavelet in medium 2 spreads to radius <span class="math-tex" data-math="AE = v_2 \tau"></span>.
           </p>
-          <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 my-2 space-y-2 text-xs md:text-sm">
-            <p>In time $\tau$, the secondary wavelet originating from $A$ travels in medium 2 to a radius $AE = v_2 \tau$.</p>
-            <p>From right-angled $\Delta ABC$:</p>
-            <div class="math-display text-center">$$\sin i = \frac{BC}{AC} = \frac{v_1 \tau}{AC}$$</div>
-            <p>From right-angled $\Delta AEC$:</p>
-            <div class="math-display text-center">$$\sin r = \frac{AE}{AC} = \frac{v_2 \tau}{AC}$$</div>
-            <p>Taking the ratio:</p>
-            <div class="math-display text-center">
-              $$\frac{\sin i}{\sin r} = \frac{\frac{v_1 \tau}{AC}}{\frac{v_2 \tau}{AC}} = \frac{v_1}{v_2} = \frac{c / v_2}{c / v_1} = \frac{n_2}{n_1} = n_{21}$$
+          <div class="my-3 bg-slate-900 p-3 rounded-lg border border-slate-800 space-y-2">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span>From right-angled <span class="math-tex" data-math="\Delta ABC"></span>:</span>
+              <span class="math-tex" data-math="\sin i = \frac{BC}{AC} = \frac{v_1 \tau}{AC}"></span>
             </div>
-            <div class="p-2.5 rounded bg-emerald-950/40 border border-emerald-700/50 text-emerald-300 font-semibold text-center">
-              $$n_1 \sin i = n_2 \sin r \quad (\text{Snell's Law})$$
+            <div class="flex items-center gap-2 flex-wrap">
+              <span>From right-angled <span class="math-tex" data-math="\Delta AEC"></span>:</span>
+              <span class="math-tex" data-math="\sin r = \frac{AE}{AC} = \frac{v_2 \tau}{AC}"></span>
+            </div>
+            
+            <div class="pt-2 border-t border-slate-800 text-cyan-300 font-semibold overflow-x-auto py-1">
+              <span class="math-tex math-display" data-math="\frac{\sin i}{\sin r} = \frac{\frac{v_1 \tau}{AC}}{\frac{v_2 \tau}{AC}} = \frac{v_1}{v_2} = \frac{c/v_2}{c/v_1} = \frac{n_2}{n_1} = n_{21}"></span>
             </div>
           </div>
-          <p class="text-xs text-slate-400 mt-2">
-            This proves Snell's Law of Refraction and directly establishes that when light enters an optically denser medium ($n_2 &gt; n_1$), its speed decreases ($v_2 &lt; v_1$), bending the ray towards the normal.
-          </p>
+          <div class="p-2.5 rounded bg-sky-950/30 border border-sky-800/40 text-sky-200">
+            This proves <strong>Snell's Law of Refraction</strong>: <span class="math-tex" data-math="n_1 \sin i = n_2 \sin r"></span>.
+          </div>
+          <div class="mt-2 text-xs bg-amber-950/30 border border-amber-800/40 p-2.5 rounded-lg text-amber-200">
+            <strong>Critical Angle &amp; Total Internal Reflection:</strong> When moving from a denser medium to a rarer medium (<span class="math-tex" data-math="n_1 > n_2"></span>), if <span class="math-tex" data-math="i > i_c = \arcsin(n_2 / n_1)"></span>, then <span class="math-tex" data-math="\sin r > 1"></span>, which has no real refraction angle; all wave energy reflects back internally.
+          </div>
         </div>
 
       </div>
 
-      <div class="p-4 border-t border-slate-800 bg-slate-900/90 text-right">
-        <button id="btn-close-modal-bottom" class="px-5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm shadow transition">
-          Close Window
+      <div class="mt-6 flex justify-end">
+        <button onclick="toggleTheoryModal(false)" class="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-medium rounded-xl text-xs shadow transition">
+          Return to Simulation
         </button>
       </div>
     </div>
   </div>
 
-  <!-- JavaScript Simulation Core -->
   <script>
-    (function () {
-      // Configuration & State
-      const state = {
-        mode: 'reflection', // 'reflection' | 'refraction'
-        angleI_deg: 45.0,
-        n1: 1.0,
-        n2: 1.5,
-        t: 0.0, // time in units of tau (0.0 -> 2.0)
-        isPlaying: false,
-        showWavelets: true,
-        showEnvelope: true,
-        showRays: true,
-        showTriangles: true
-      };
-
-      // Canvas & Rendering
-      const canvas = document.getElementById('simCanvas');
-      const ctx = canvas.getContext('2d');
-      let animFrameId = null;
-      let lastTimestamp = 0;
-
-      // DOM Elements
-      const btnModeRefl = document.getElementById('btn-mode-refl');
-      const btnModeRefr = document.getElementById('btn-mode-refr');
-      const btnPlay = document.getElementById('btn-play');
-      const iconPlay = document.getElementById('icon-play');
-      const iconPause = document.getElementById('icon-pause');
-      const btnStep = document.getElementById('btn-step');
-      const btnSnapTau = document.getElementById('btn-snap-tau');
-      const btnReset = document.getElementById('btn-reset');
-      const timeSlider = document.getElementById('time-slider');
-      const timeReadout = document.getElementById('time-val-readout');
-      const sliderI = document.getElementById('slider-i');
-      const labelI = document.getElementById('label-i-val');
-      const sliderN1 = document.getElementById('slider-n1');
-      const labelN1 = document.getElementById('label-n1-val');
-      const sliderN2 = document.getElementById('slider-n2');
-      const labelN2 = document.getElementById('label-n2-val');
-      const refrSettings = document.getElementById('refraction-settings');
-      const statusBadge = document.getElementById('status-badge');
-      const tirBadge = document.getElementById('tir-badge');
-      const proofBadge = document.getElementById('proof-badge');
-      const liveProofContent = document.getElementById('live-proof-content');
-
-      // Modal Elements
-      const btnOpenDeriv = document.getElementById('btn-open-deriv');
-      const modalDeriv = document.getElementById('modal-deriv');
-      const btnCloseModal = document.getElementById('btn-close-modal');
-      const btnCloseModalBottom = document.getElementById('btn-close-modal-bottom');
-
-      // Checkboxes
-      const chkWavelets = document.getElementById('chk-wavelets');
-      const chkEnvelope = document.getElementById('chk-envelope');
-      const chkRays = document.getElementById('chk-rays');
-      const chkTriangles = document.getElementById('chk-triangles');
-
-      // Helper function for KaTeX safe rendering
-      function renderMath(element, texString, isDisplay = false) {
-        if (!window.katex) return;
-        try {
-          window.katex.render(texString, element, {
-            displayMode: isDisplay,
-            throwOnError: false
-          });
-        } catch (e) {
-          element.textContent = texString;
-        }
+    const state = {
+      mode: 'refraction', // 'reflection' | 'refraction'
+      iDeg: 45,           // Angle of incidence in degrees
+      n1: 1.00,           // Medium 1 refractive index
+      n2: 1.50,           // Medium 2 refractive index
+      t: 0.0,             // Normalized time: 0 = wavefront touches A, 1.0 = touches C (t = tau), up to 2.0
+      isPlaying: false,
+      speed: 1.0,
+      v1: 160,            // Base velocity scale (pixels per tau)
+      tMax: 2.0,          // Maximum scrubber value
+      lastTimestamp: 0,
+      toggles: {
+        wavelets: true,
+        envelope: true,
+        normals: true,
+        rays: true,
+        triangles: true,
+        labels: true
       }
+    };
 
-      // Initialize Static KaTeX Labels
-      function initStaticMathLabels() {
-        renderMath(document.getElementById('eq-i-label'), 'i');
-        renderMath(document.getElementById('eq-n1-label'), 'n_1');
-        renderMath(document.getElementById('eq-n2-label'), 'n_2');
+    // Canvas references
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // UI elements
+    const timeSlider = document.getElementById('timeSlider');
+    const playBtnText = document.getElementById('play-text');
+    const timeReadout = document.getElementById('time-readout');
+    const stateDescription = document.getElementById('state-description');
+
+    // Color definitions
+    const colors = {
+      boundary: '#94a3b8',
+      medium1Bg: '#0f172a',
+      incidentRay: '#f59e0b',
+      incidentWavefront: '#fbbf24',
+      reflectedRay: '#10b981',
+      reflectedWavefront: '#34d399',
+      refractedRay: '#38bdf8',
+      refractedWavefront: '#60a5fa',
+      waveletArc: '#818cf8',
+      waveletArcPast: 'rgba(129, 140, 248, 0.45)',
+      normal: '#64748b',
+      triangleIncident: 'rgba(245, 158, 11, 0.12)',
+      triangleSecondary: 'rgba(56, 189, 248, 0.15)',
+      text: '#f8fafc'
+    };
+
+    function renderKatexMath(container) {
+      if (typeof renderMathInElement === 'function' && container) {
+        renderMathInElement(container, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });
       }
+    }
 
-      // Resize canvas to match display size exactly
-      function resizeCanvas() {
-        const rect = canvas.getBoundingClientRect();
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = rect.width * dpr;
-        canvas.height = rect.height * dpr;
-        ctx.resetTransform();
-        ctx.scale(dpr, dpr);
-      }
-      window.addEventListener('resize', resizeCanvas);
-
-      // Event Listeners for UI
-      btnModeRefl.addEventListener('click', () => {
-        state.mode = 'reflection';
-        btnModeRefl.className = 'px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all bg-cyan-500 text-white shadow';
-        btnModeRefr.className = 'px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all text-slate-300 hover:text-white';
-        refrSettings.classList.add('opacity-40', 'pointer-events-none');
-        updateMathProof();
-      });
-
-      btnModeRefr.addEventListener('click', () => {
-        state.mode = 'refraction';
-        btnModeRefr.className = 'px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all bg-cyan-500 text-white shadow';
-        btnModeRefl.className = 'px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all text-slate-300 hover:text-white';
-        refrSettings.classList.remove('opacity-40', 'pointer-events-none');
-        updateMathProof();
-      });
-
-      sliderI.addEventListener('input', (e) => {
-        state.angleI_deg = parseFloat(e.target.value);
-        labelI.textContent = `${state.angleI_deg.toFixed(1)}°`;
-        updateMathProof();
-      });
-
-      sliderN1.addEventListener('input', (e) => {
-        state.n1 = parseFloat(e.target.value);
-        labelN1.textContent = `${state.n1.toFixed(2)}`;
-        updateMathProof();
-      });
-
-      sliderN2.addEventListener('input', (e) => {
-        state.n2 = parseFloat(e.target.value);
-        labelN2.textContent = `${state.n2.toFixed(2)}`;
-        updateMathProof();
-      });
-
-      timeSlider.addEventListener('input', (e) => {
-        state.t = parseFloat(e.target.value);
-        state.isPlaying = false;
-        iconPlay.classList.remove('hidden');
-        iconPause.classList.add('hidden');
-        updateStatus();
-      });
-
-      btnPlay.addEventListener('click', () => {
-        state.isPlaying = !state.isPlaying;
-        if (state.isPlaying) {
-          iconPlay.classList.add('hidden');
-          iconPause.classList.remove('hidden');
-          if (state.t >= 2.0) state.t = 0;
-          lastTimestamp = performance.now();
-        } else {
-          iconPlay.classList.remove('hidden');
-          iconPause.classList.add('hidden');
-        }
-      });
-
-      btnStep.addEventListener('click', () => {
-        state.isPlaying = false;
-        iconPlay.classList.remove('hidden');
-        iconPause.classList.add('hidden');
-        state.t = Math.min(2.0, state.t + 0.05);
-        timeSlider.value = state.t;
-        updateStatus();
-      });
-
-      btnSnapTau.addEventListener('click', () => {
-        state.isPlaying = false;
-        iconPlay.classList.remove('hidden');
-        iconPause.classList.add('hidden');
-        state.t = 1.0;
-        timeSlider.value = 1.0;
-        updateStatus();
-      });
-
-      btnReset.addEventListener('click', () => {
-        state.isPlaying = false;
-        iconPlay.classList.remove('hidden');
-        iconPause.classList.add('hidden');
-        state.t = 0.0;
-        timeSlider.value = 0.0;
-        updateStatus();
-      });
-
-      // Toggles
-      chkWavelets.addEventListener('change', (e) => state.showWavelets = e.target.checked);
-      chkEnvelope.addEventListener('change', (e) => state.showEnvelope = e.target.checked);
-      chkRays.addEventListener('change', (e) => state.showRays = e.target.checked);
-      chkTriangles.addEventListener('change', (e) => state.showTriangles = e.target.checked);
-
-      // Modal Controls
-      btnOpenDeriv.addEventListener('click', () => {
-        modalDeriv.classList.remove('hidden');
-        if (window.renderMathInElement) {
-          window.renderMathInElement(modalDeriv, {
-            delimiters: [
-              { left: '$$', right: '$$', display: true },
-              { left: '$', right: '$', display: false }
-            ],
-            throwOnError: false
-          });
-        }
-      });
-
-      const closeModal = () => modalDeriv.classList.add('hidden');
-      btnCloseModal.addEventListener('click', closeModal);
-      btnCloseModalBottom.addEventListener('click', closeModal);
-      modalDeriv.addEventListener('click', (e) => {
-        if (e.target === modalDeriv) closeModal();
-      });
-
-      // Status updates
-      function updateStatus() {
-        timeReadout.textContent = state.t.toFixed(2);
-        if (state.t < 0.98) {
-          statusBadge.textContent = 'Phase 1: Wavefront AB Incident (Approaching t = \u03c4)';
-          statusBadge.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-950/80 backdrop-blur border border-cyan-500/30 text-cyan-300 shadow';
-        } else if (state.t <= 1.05) {
-          statusBadge.textContent = 'Phase 2: Instant t = \u03c4 (Tangent Envelope CE Formed)';
-          statusBadge.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-950/80 backdrop-blur border border-amber-500/50 text-amber-300 shadow';
-        } else {
-          statusBadge.textContent = 'Phase 3: Wavefront CE Advancing in Medium';
-          statusBadge.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-950/80 backdrop-blur border border-emerald-500/40 text-emerald-300 shadow';
-        }
-      }
-
-      // Mathematical Proof update panel
-      function updateMathProof() {
-        const radI = (state.angleI_deg * Math.PI) / 180;
-        liveProofContent.innerHTML = '';
-
-        if (state.mode === 'reflection') {
-          tirBadge.classList.add('hidden');
-          proofBadge.textContent = 'i = r Verified';
-          proofBadge.className = 'text-xs font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700';
-
-          const card = document.createElement('div');
-          card.className = 'space-y-2';
-
-          const line1 = document.createElement('div');
-          line1.className = 'flex justify-between items-center bg-slate-950/60 p-2 rounded-lg border border-slate-800';
-          const span1L = document.createElement('span');
-          renderMath(span1L, '\\text{Incident Angle } i:');
-          const span1R = document.createElement('span');
-          span1R.className = 'font-mono text-cyan-300 font-bold';
-          span1R.textContent = `${state.angleI_deg.toFixed(1)}°`;
-          line1.appendChild(span1L);
-          line1.appendChild(span1R);
-
-          const line2 = document.createElement('div');
-          line2.className = 'flex justify-between items-center bg-slate-950/60 p-2 rounded-lg border border-slate-800';
-          const span2L = document.createElement('span');
-          renderMath(span2L, '\\text{Reflected Angle } r:');
-          const span2R = document.createElement('span');
-          span2R.className = 'font-mono text-emerald-300 font-bold';
-          span2R.textContent = `${state.angleI_deg.toFixed(1)}°`;
-          line2.appendChild(span2L);
-          line2.appendChild(span2R);
-
-          const mathBox = document.createElement('div');
-          mathBox.className = 'bg-slate-950/80 p-3 rounded-lg border border-slate-800 text-center math-display';
-          renderMath(
-            mathBox,
-            '\\Delta ABC \\cong \\Delta AEC \\implies \\angle i = \\angle r = ' + state.angleI_deg.toFixed(1) + '^\\circ',
-            true
-          );
-
-          card.appendChild(line1);
-          card.appendChild(line2);
-          card.appendChild(mathBox);
-          liveProofContent.appendChild(card);
-
-        } else {
-          // Refraction Mode
-          const sinI = Math.sin(radI);
-          const sinR_calc = (state.n1 / state.n2) * sinI;
-          const isTIR = sinR_calc > 1.0;
-
-          if (isTIR) {
-            tirBadge.classList.remove('hidden');
-            proofBadge.textContent = 'Total Internal Refl.';
-            proofBadge.className = 'text-xs font-mono px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-600';
-
-            const critAngle = (Math.asin(state.n2 / state.n1) * 180) / Math.PI;
-
-            const card = document.createElement('div');
-            card.className = 'space-y-2';
-
-            const alertBox = document.createElement('div');
-            alertBox.className = 'p-2.5 rounded-lg bg-amber-950/50 border border-amber-600/60 text-amber-200 text-xs';
-            renderMath(alertBox, `\\text{Since } i (${state.angleI_deg.toFixed(1)}^\\circ) > i_c (${critAngle.toFixed(1)}^\\circ), \\text{ total internal reflection occurs.}`);
-
-            const mathBox = document.createElement('div');
-            mathBox.className = 'bg-slate-950/80 p-2.5 rounded-lg border border-slate-800 text-center math-display';
-            renderMath(mathBox, 'i_c = \\arcsin\\left(\\frac{n_2}{n_1}\\right) = ' + critAngle.toFixed(2) + '^\\circ', true);
-
-            card.appendChild(alertBox);
-            card.appendChild(mathBox);
-            liveProofContent.appendChild(card);
-
-          } else {
-            tirBadge.classList.add('hidden');
-            proofBadge.textContent = "Snell's Law Verified";
-            proofBadge.className = 'text-xs font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700';
-
-            const radR = Math.asin(sinR_calc);
-            const degR = (radR * 180) / Math.PI;
-            const relIndex = state.n2 / state.n1;
-
-            const card = document.createElement('div');
-            card.className = 'space-y-2';
-
-            const line1 = document.createElement('div');
-            line1.className = 'flex justify-between items-center bg-slate-950/60 p-2 rounded-lg border border-slate-800';
-            const span1L = document.createElement('span');
-            renderMath(span1L, '\\text{Incidence } i:');
-            const span1R = document.createElement('span');
-            span1R.className = 'font-mono text-cyan-300 font-bold';
-            span1R.textContent = `${state.angleI_deg.toFixed(1)}°`;
-            line1.appendChild(span1L);
-            line1.appendChild(span1R);
-
-            const line2 = document.createElement('div');
-            line2.className = 'flex justify-between items-center bg-slate-950/60 p-2 rounded-lg border border-slate-800';
-            const span2L = document.createElement('span');
-            renderMath(span2L, '\\text{Refraction } r:');
-            const span2R = document.createElement('span');
-            span2R.className = 'font-mono text-emerald-300 font-bold';
-            span2R.textContent = `${degR.toFixed(1)}°`;
-            line2.appendChild(span2L);
-            line2.appendChild(span2R);
-
-            const mathBox = document.createElement('div');
-            mathBox.className = 'bg-slate-950/80 p-2.5 rounded-lg border border-slate-800 text-center math-display space-y-1';
-            
-            const formula1 = document.createElement('div');
-            renderMath(
-              formula1,
-              '\\frac{\\sin i}{\\sin r} = \\frac{\\sin(' + state.angleI_deg.toFixed(1) + '^\\circ)}{\\sin(' + degR.toFixed(1) + '^\\circ)} = \\frac{' + sinI.toFixed(3) + '}{' + sinR_calc.toFixed(3) + '} = ' + (sinI / sinR_calc).toFixed(3),
-              true
-            );
-
-            const formula2 = document.createElement('div');
-            renderMath(
-              formula2,
-              '\\frac{n_2}{n_1} = \\frac{' + state.n2.toFixed(2) + '}{' + state.n1.toFixed(2) + '} = ' + relIndex.toFixed(3),
-              true
-            );
-
-            mathBox.appendChild(formula1);
-            mathBox.appendChild(formula2);
-
-            card.appendChild(line1);
-            card.appendChild(line2);
-            card.appendChild(mathBox);
-            liveProofContent.appendChild(card);
+    function renderStaticMath() {
+      document.querySelectorAll('.math-tex').forEach(el => {
+        const math = el.getAttribute('data-math');
+        if (math && window.katex) {
+          try {
+            katex.render(math, el, {
+              throwOnError: false,
+              displayMode: el.classList.contains('math-display')
+            });
+          } catch(e) {
+            el.innerText = math;
           }
         }
+      });
+    }
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.resetTransform();
+      ctx.scale(dpr, dpr);
+      draw();
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    function setMode(newMode) {
+      state.mode = newMode;
+      document.getElementById('tab-reflection').className = newMode === 'reflection' 
+        ? "px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 bg-cyan-600 text-white shadow-sm flex items-center gap-1.5"
+        : "px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 text-slate-300 hover:text-white flex items-center gap-1.5";
+      
+      document.getElementById('tab-refraction').className = newMode === 'refraction'
+        ? "px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 bg-cyan-600 text-white shadow-sm flex items-center gap-1.5"
+        : "px-3.5 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all duration-200 text-slate-300 hover:text-white flex items-center gap-1.5";
+
+      document.getElementById('refraction-controls').style.display = newMode === 'refraction' ? 'block' : 'none';
+
+      updateBadgesAndMath();
+      draw();
+    }
+
+    function toggleTheoryModal(show) {
+      const modal = document.getElementById('theoryModal');
+      if (show) {
+        modal.classList.remove('hidden');
+        renderStaticMath();
+        lucide.createIcons();
+      } else {
+        modal.classList.add('hidden');
       }
+    }
 
-      // Drawing Helpers
-      function drawLabel(text, x, y, color = '#38bdf8', font = 'bold 13px sans-serif') {
-        ctx.save();
-        ctx.font = font;
-        ctx.fillStyle = color;
-        ctx.shadowColor = 'rgba(0,0,0,0.8)';
-        ctx.shadowBlur = 4;
-        ctx.fillText(text, x, y);
-        ctx.restore();
+    function updateAngleI(val) {
+      state.iDeg = parseFloat(val);
+      document.getElementById('val-angle-i').innerText = state.iDeg.toFixed(1) + '°';
+      updateBadgesAndMath();
+      draw();
+    }
+
+    function updateN1(val) {
+      state.n1 = parseFloat(val);
+      document.getElementById('val-n1').innerText = state.n1.toFixed(2);
+      document.getElementById('val-vratio').innerText = (state.n2 / state.n1).toFixed(3);
+      updateBadgesAndMath();
+      draw();
+    }
+
+    function updateN2(val) {
+      state.n2 = parseFloat(val);
+      document.getElementById('val-n2').innerText = state.n2.toFixed(2);
+      document.getElementById('val-vratio').innerText = (state.n2 / state.n1).toFixed(3);
+      updateBadgesAndMath();
+      draw();
+    }
+
+    function setPresets(n1, n2) {
+      state.n1 = n1;
+      state.n2 = n2;
+      document.getElementById('slider-n1').value = n1;
+      document.getElementById('slider-n2').value = n2;
+      document.getElementById('val-n1').innerText = n1.toFixed(2);
+      document.getElementById('val-n2').innerText = n2.toFixed(2);
+      document.getElementById('val-vratio').innerText = (n2 / n1).toFixed(3);
+      updateBadgesAndMath();
+      draw();
+    }
+
+    function setSimSpeed(s) {
+      state.speed = s;
+      document.getElementById('spd-05').className = s === 0.5 ? 'px-2 py-1 rounded bg-cyan-600 text-white border border-cyan-500' : 'px-2 py-1 rounded bg-slate-800 border border-slate-700 hover:bg-slate-700';
+      document.getElementById('spd-10').className = s === 1.0 ? 'px-2 py-1 rounded bg-cyan-600 text-white border border-cyan-500' : 'px-2 py-1 rounded bg-slate-800 border border-slate-700 hover:bg-slate-700';
+      document.getElementById('spd-20').className = s === 2.0 ? 'px-2 py-1 rounded bg-cyan-600 text-white border border-cyan-500' : 'px-2 py-1 rounded bg-slate-800 border border-slate-700 hover:bg-slate-700';
+    }
+
+    function togglePlay() {
+      state.isPlaying = !state.isPlaying;
+      if (state.isPlaying) {
+        if (state.t >= state.tMax) state.t = 0.0;
+        playBtnText.innerText = "Pause";
+      } else {
+        playBtnText.innerText = "Play";
       }
+      lucide.createIcons();
+    }
 
-      function drawRightAngle(pCorner, p1, p2, size = 12, strokeStyle = '#94a3b8') {
-        const v1 = { x: p1.x - pCorner.x, y: p1.y - pCorner.y };
-        const v2 = { x: p2.x - pCorner.x, y: p2.y - pCorner.y };
-        const len1 = Math.hypot(v1.x, v1.y) || 1;
-        const len2 = Math.hypot(v2.x, v2.y) || 1;
-        const u1 = { x: (v1.x / len1) * size, y: (v1.y / len1) * size };
-        const u2 = { x: (v2.x / len2) * size, y: (v2.y / len2) * size };
+    function stepForward() {
+      state.isPlaying = false;
+      playBtnText.innerText = "Play";
+      state.t = Math.min(state.tMax, state.t + 0.05);
+      timeSlider.value = state.t;
+      updateBadgesAndMath();
+      draw();
+      lucide.createIcons();
+    }
 
-        ctx.save();
-        ctx.strokeStyle = strokeStyle;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(pCorner.x + u1.x, pCorner.y + u1.y);
-        ctx.lineTo(pCorner.x + u1.x + u2.x, pCorner.y + u1.y + u2.y);
-        ctx.lineTo(pCorner.x + u2.x, pCorner.y + u2.y);
-        ctx.stroke();
-        ctx.restore();
+    function resetSimulation() {
+      state.isPlaying = false;
+      playBtnText.innerText = "Play";
+      state.t = 0.0;
+      timeSlider.value = 0.0;
+      updateBadgesAndMath();
+      draw();
+      lucide.createIcons();
+    }
+
+    function snapToTau() {
+      state.isPlaying = false;
+      playBtnText.innerText = "Play";
+      state.t = 1.0;
+      timeSlider.value = 1.0;
+      updateBadgesAndMath();
+      draw();
+      lucide.createIcons();
+    }
+
+    function onTimeSliderChange(val) {
+      state.t = parseFloat(val);
+      updateBadgesAndMath();
+      draw();
+    }
+
+    ['wavelets', 'envelope', 'normals', 'rays', 'triangles', 'labels'].forEach(key => {
+      const el = document.getElementById(`chk-${key}`);
+      if (el) {
+        el.addEventListener('change', (e) => {
+          state.toggles[key] = e.target.checked;
+          draw();
+        });
       }
+    });
 
-      // Main Render Canvas Loop
-      function render() {
-        const w = canvas.width / (window.devicePixelRatio || 1);
-        const h = canvas.height / (window.devicePixelRatio || 1);
+    function getPhysicsParams() {
+      const iRad = (state.iDeg * Math.PI) / 180;
+      const v1 = state.v1;
+      let v2 = v1;
+      let rRad = iRad;
+      let isTIR = false;
+      let critAngleDeg = null;
 
-        ctx.clearRect(0, 0, w, h);
-
-        const radI = (state.angleI_deg * Math.PI) / 180;
-        const sinI = Math.sin(radI);
-        const cosI = Math.cos(radI);
-
-        // Boundary line XY
-        const yBound = h * 0.52;
-        const xA = w * 0.30;
-        const L_AC = Math.min(w * 0.40, 300);
-        const xC = xA + L_AC;
-
-        // Visual distinction for Medium 1 and 2
-        if (state.mode === 'refraction') {
-          ctx.fillStyle = 'rgba(15, 23, 42, 0.45)';
-          ctx.fillRect(0, 0, w, yBound);
-
-          const alpha2 = Math.min(0.7, 0.15 + (state.n2 - 1.0) * 0.28);
-          ctx.fillStyle = `rgba(14, 116, 144, ${alpha2})`;
-          ctx.fillRect(0, yBound, w, h - yBound);
+      if (state.mode === 'reflection') {
+        v2 = v1;
+        rRad = iRad;
+      } else {
+        v2 = v1 * (state.n1 / state.n2);
+        const sinR = (state.n1 / state.n2) * Math.sin(iRad);
+        if (state.n1 > state.n2) {
+          critAngleDeg = (Math.asin(state.n2 / state.n1) * 180) / Math.PI;
         }
-
-        // Draw Interface XY
-        ctx.save();
-        ctx.strokeStyle = state.mode === 'reflection' ? '#38bdf8' : '#67e8f9';
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        ctx.moveTo(30, yBound);
-        ctx.lineTo(w - 30, yBound);
-        ctx.stroke();
-
-        // Hatching marks for mirror if reflection
-        if (state.mode === 'reflection') {
-          ctx.strokeStyle = '#0284c7';
-          ctx.lineWidth = 1.5;
-          for (let x = 35; x < w - 30; x += 15) {
-            ctx.beginPath();
-            ctx.moveTo(x, yBound);
-            ctx.lineTo(x - 8, yBound + 12);
-            ctx.stroke();
-          }
-        }
-        ctx.restore();
-
-        // Interface Labels X, Y
-        drawLabel("X", 35, yBound - 8, "#94a3b8", "bold 12px monospace");
-        drawLabel("Y", w - 45, yBound - 8, "#94a3b8", "bold 12px monospace");
-
-        // Medium Indicator Text
-        if (state.mode === 'refraction') {
-          drawLabel(`Medium 1 (n₁ = ${state.n1.toFixed(2)})`, 45, yBound - 20, '#7dd3fc', '12px sans-serif');
-          drawLabel(`Medium 2 (n₂ = ${state.n2.toFixed(2)})`, 45, yBound + 30, '#a5f3fc', '12px sans-serif');
+        if (sinR > 1.0) {
+          isTIR = true;
+          rRad = iRad; // Total internal reflection back into Medium 1
         } else {
-          drawLabel("Reflecting Surface (Mirror)", 45, yBound - 15, '#7dd3fc', '12px sans-serif');
+          rRad = Math.asin(sinR);
+        }
+      }
+
+      return { iRad, rRad, v1, v2, isTIR, critAngleDeg };
+    }
+
+    function updateBadgesAndMath() {
+      const p = getPhysicsParams();
+      const badgeTir = document.getElementById('badge-tir');
+      const badgeMode = document.getElementById('badge-mode');
+      const readoutI = document.getElementById('readout-i');
+      const readoutR = document.getElementById('readout-r');
+      const readoutBC = document.getElementById('readout-bc');
+      const readoutAE = document.getElementById('readout-ae');
+      const labelAngleR = document.getElementById('label-angle-r');
+      const proofBox = document.getElementById('katex-proof-box');
+      const ncertSummary = document.getElementById('ncert-text-summary');
+      const lawTitle = document.getElementById('law-title');
+
+      if (window.katex) {
+        katex.render(`t = ${state.t.toFixed(2)}\\,\\tau`, timeReadout, { throwOnError: false });
+      } else {
+        timeReadout.innerText = `t = ${state.t.toFixed(2)} τ`;
+      }
+
+      if (state.mode === 'reflection') {
+        badgeMode.innerHTML = `Reflection: Medium 1 <span class="ml-1">(v_1)</span>`;
+      } else {
+        badgeMode.innerHTML = `Refraction: Medium 1 <span class="mx-1 text-sky-300">(n_1 = ${state.n1.toFixed(2)})</span> &rarr; Medium 2 <span class="ml-1 text-indigo-300">(n_2 = ${state.n2.toFixed(2)})</span>`;
+      }
+
+      if (p.isTIR) {
+        badgeTir.classList.remove('hidden');
+        badgeTir.innerHTML = `<span>Total Internal Reflection:</span> <span id="tir-math" class="ml-1"></span>`;
+        if (window.katex) {
+          katex.render(`i (${state.iDeg.toFixed(1)}^\\circ) > i_c (${p.critAngleDeg.toFixed(1)}^\\circ)`, document.getElementById('tir-math'), { throwOnError: false });
+        }
+      } else {
+        badgeTir.classList.add('hidden');
+      }
+
+      readoutI.innerText = `${state.iDeg.toFixed(2)}°`;
+      const rDeg = (p.rRad * 180 / Math.PI);
+      readoutR.innerText = p.isTIR ? `${rDeg.toFixed(2)}° (TIR)` : `${rDeg.toFixed(2)}°`;
+      
+      labelAngleR.innerHTML = `<span>Angle</span> <span id="label-r-math" class="text-emerald-400"></span>:`;
+      if (window.katex) {
+        katex.render(state.mode === 'reflection' || p.isTIR ? 'r \\text{ (Reflection)}' : 'r \\text{ (Refraction)}', document.getElementById('label-r-math'), { throwOnError: false });
+      }
+
+      const bc = p.v1 * 1.0;
+      const ae = (state.mode === 'reflection' || p.isTIR) ? (p.v1 * 1.0) : (p.v2 * 1.0);
+      readoutBC.innerText = `${bc.toFixed(1)} px`;
+      readoutAE.innerText = `${ae.toFixed(1)} px`;
+
+      let phaseText = '';
+      if (state.t === 0) {
+        phaseText = `At $t = 0$: Incident plane wavefront $AB$ touches boundary at point $A$. Point $B$ is at distance $BC = v_1 \\tau$.`;
+      } else if (state.t < 1.0) {
+        phaseText = `At $0 < t < \\tau$: Incident wavefront advances by $v_1 t$. Its contact point sweeps along $AC$, emitting secondary circular wavelets of radius $r = v_2(t - t_{\\text{hit}})$.`;
+      } else if (state.t === 1.0) {
+        phaseText = `At $t = \\tau$: Edge $B$ reaches $C$ ($BC = v_1 \\tau$). Tangent plane $CE$ touches wavelet from $A$ ($AE = v_2 \\tau$), with $\\angle AEC = 90^\\circ$.`;
+      } else {
+        phaseText = `For $t > \\tau$: Refracted wavefront $CE$ advances uniformly through Medium 2 along the refracted ray direction.`;
+      }
+      stateDescription.innerHTML = phaseText;
+      renderKatexMath(stateDescription);
+
+      if (state.mode === 'reflection' || p.isTIR) {
+        if (window.katex) {
+          katex.render('\\angle i = \\angle r', lawTitle, { throwOnError: false });
         }
 
-        // Exact NCERT Geometry Calculations
-        const v1_tau = L_AC * sinI; // Length BC = v1 * tau
-        const ptA = { x: xA, y: yBound };
-        const ptC = { x: xC, y: yBound };
-
-        // Point B: Incident wavefront edge at t = 0 (such that BC = v1 * tau and angle B = 90 deg)
-        const ptB = {
-          x: ptC.x - v1_tau * sinI,
-          y: ptC.y - v1_tau * cosI
-        };
-
-        // Determine secondary wavelet radius & angle for medium 2 or reflected
-        let radR = radI;
-        let v2_tau = v1_tau; // Reflection: v2 = v1
-        let isTIR = false;
-
-        if (state.mode === 'refraction') {
-          const sinR_calc = (state.n1 / state.n2) * sinI;
-          if (sinR_calc > 1.0) {
-            isTIR = true;
-            radR = radI;
-            v2_tau = v1_tau;
-          } else {
-            radR = Math.asin(sinR_calc);
-            v2_tau = (state.n1 / state.n2) * v1_tau; // v2 * tau
+        if (p.isTIR) {
+          proofBox.innerHTML = `
+            <div class="space-y-1">
+              <div>Critical Angle: <span id="k-crit"></span></div>
+              <div class="text-rose-400 font-bold">Since $i > i_c$, no refracted wave exists in Medium 2 ($\sin r > 1$).</div>
+              <div>Secondary wavelets reflect back entirely into Medium 1 obeying $\\angle i = \\angle r$.</div>
+            </div>`;
+          renderKatexMath(proofBox);
+          if (window.katex) {
+            katex.render(`i_c = \\arcsin\\left(\\frac{n_2}{n_1}\\right) = ${p.critAngleDeg.toFixed(2)}^\\circ`, document.getElementById('k-crit'), { throwOnError: false });
           }
-        }
 
-        const sinR = Math.sin(radR);
-        const cosR = Math.cos(radR);
-
-        // Point E at t = tau
-        let ptE;
-        if (state.mode === 'reflection' || isTIR) {
-          ptE = {
-            x: ptA.x + v2_tau * sinR,
-            y: ptA.y - v2_tau * cosR
-          };
+          ncertSummary.innerHTML = `Since angle of incidence exceeds critical angle $i_c = \\arcsin(n_2/n_1)$, $\\sin r > 1$ has no real solution. The entire wave undergoes Total Internal Reflection obeying $\\angle i = \\angle r$.`;
+          renderKatexMath(ncertSummary);
         } else {
-          ptE = {
-            x: ptA.x + v2_tau * sinR,
-            y: ptA.y + v2_tau * cosR
-          };
+          proofBox.innerHTML = `
+            <div class="space-y-1.5">
+              <div>In $\\Delta ABC$: $\\sin i = \\frac{BC}{AC} = \\frac{v_1 \\tau}{AC}$</div>
+              <div>In $\\Delta AEC$: $\\sin r = \\frac{AE}{AC} = \\frac{v_1 \\tau}{AC}$</div>
+              <div class="text-emerald-400 font-bold pt-1 border-t border-slate-700">
+                $\\implies \\sin i = \\sin r \\iff \\mathbf{\\angle i = \\angle r}$ (Law of Reflection)
+              </div>
+            </div>`;
+          renderKatexMath(proofBox);
+
+          ncertSummary.innerHTML = `In right triangles $\\Delta ABC$ and $\\Delta AEC$, hypotenuse $AC$ is common and $BC = AE = v_1 \\tau$. By RHS congruence condition, $\\Delta ABC \\cong \\Delta AEC$, establishing $\\angle i = \\angle r$.`;
+          renderKatexMath(ncertSummary);
+        }
+      } else {
+        if (window.katex) {
+          katex.render('\\frac{\\sin i}{\\sin r} = \\frac{n_2}{n_1}', lawTitle, { throwOnError: false });
         }
 
-        // Incident and Outgoing unit ray vectors
-        const rayDirInc = { x: sinI, y: cosI };
-        const rayDirOut = state.mode === 'reflection' || isTIR ? { x: sinR, y: -cosR } : { x: sinR, y: cosR };
+        const sinI = Math.sin(p.iRad);
+        const sinR = Math.sin(p.rRad);
+        const ratioSin = (sinI / sinR).toFixed(4);
+        const ratioN = (state.n2 / state.n1).toFixed(4);
 
-        // Draw Normals at A and C
-        ctx.save();
+        proofBox.innerHTML = `
+          <div class="space-y-1.5">
+            <div>In $\\Delta ABC$: $\\sin i = \\frac{BC}{AC} = \\frac{v_1 \\tau}{AC}$</div>
+            <div>In $\\Delta AEC$: $\\sin r = \\frac{AE}{AC} = \\frac{v_2 \\tau}{AC}$</div>
+            <div class="text-cyan-400 font-bold pt-1 border-t border-slate-700">
+              $\\frac{\\sin i}{\\sin r} = \\frac{v_1}{v_2} = \\frac{n_2}{n_1} \\implies ${ratioSin} = ${ratioN}$
+            </div>
+          </div>`;
+        renderKatexMath(proofBox);
+
+        ncertSummary.innerHTML = `Comparing $\\Delta ABC$ and $\\Delta AEC$: $\\frac{\\sin i}{\\sin r} = \\frac{BC/AC}{AE/AC} = \\frac{v_1 \\tau}{v_2 \\tau} = \\frac{v_1}{v_2} = \\frac{n_2}{n_1}$. This proves <strong>Snell's Law of Refraction</strong>!`;
+        renderKatexMath(ncertSummary);
+      }
+    }
+
+    function draw() {
+      const w = canvas.getBoundingClientRect().width;
+      const h = canvas.getBoundingClientRect().height;
+      if (!w || !h) return;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const p = getPhysicsParams();
+      const interfaceY = h * 0.50; // Horizontal interface XY exactly centered
+      const scale = Math.min(w / 700, h / 460);
+
+      // Medium Backgrounds
+      ctx.fillStyle = colors.medium1Bg;
+      ctx.fillRect(0, 0, w, interfaceY);
+
+      if (state.mode === 'reflection' || p.isTIR) {
+        ctx.fillStyle = '#080d1a';
+        ctx.fillRect(0, interfaceY, w, h - interfaceY);
+      } else {
+        const densityFactor = Math.min(1.0, (state.n2 - 1.0) / 1.5);
+        ctx.fillStyle = `rgba(15, 30, 65, ${0.45 + densityFactor * 0.4})`;
+        ctx.fillRect(0, interfaceY, w, h - interfaceY);
+      }
+
+      // Draw Interface Surface XY
+      ctx.strokeStyle = state.mode === 'reflection' ? '#94a3b8' : '#38bdf8';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(30, interfaceY);
+      ctx.lineTo(w - 30, interfaceY);
+      ctx.stroke();
+
+      // Mirror hatchings
+      if (state.mode === 'reflection' || p.isTIR) {
         ctx.strokeStyle = '#475569';
         ctx.lineWidth = 1;
+        for (let x = 35; x < w - 30; x += 15) {
+          ctx.beginPath();
+          ctx.moveTo(x, interfaceY);
+          ctx.lineTo(x - 8, interfaceY + 10);
+          ctx.stroke();
+        }
+      }
+
+      const iRad = p.iRad;
+      const rRad = p.rRad;
+      const v1Dist = state.v1 * scale;
+      const bcDist = v1Dist; // BC = v1 * tau
+      const acDist = bcDist / Math.sin(iRad); // AC = BC / sin(i)
+
+      // Fixed point A and point C on interface XY
+      const xA = w * 0.38 - (acDist * 0.4);
+      const yA = interfaceY;
+      const xC = xA + acDist;
+      const yC = interfaceY;
+
+      // Incident ray unit vector towards boundary: k_inc = (sin(i), cos(i))
+      const kInc_x = Math.sin(iRad);
+      const kInc_y = Math.cos(iRad);
+
+      // Incident wavefront unit vector: w_inc = (cos(i), -sin(i))
+      // Strictly perpendicular: k_inc . w_inc = sin(i)cos(i) - cos(i)sin(i) = 0!
+      const wInc_x = Math.cos(iRad);
+      const wInc_y = -Math.sin(iRad);
+
+      // Width of the incident beam AB: in right triangle ABC, AB = AC * cos(i)
+      const abDist = acDist * Math.cos(iRad);
+
+      // Point B at t = 0: exactly A + abDist * w_inc
+      const xB = xA + abDist * wInc_x;
+      const yB = yA + abDist * wInc_y;
+
+      // Secondary wavelet parameters
+      const vSecDist = (state.mode === 'reflection' || p.isTIR) ? v1Dist : (p.v2 * scale);
+
+      // Point E on tangent CE: in triangle AEC, AE is perpendicular to CE
+      let xE, yE;
+      if (state.mode === 'reflection' || p.isTIR) {
+        // Reflected into Medium 1: ray AE = (sin(r), -cos(r))
+        xE = xA + vSecDist * Math.sin(rRad);
+        yE = yA - vSecDist * Math.cos(rRad);
+      } else {
+        // Refracted into Medium 2: ray AE = (sin(r), cos(r))
+        xE = xA + vSecDist * Math.sin(rRad);
+        yE = yA + vSecDist * Math.cos(rRad);
+      }
+
+      // 1. Shaded NCERT Triangles ΔABC and ΔAEC
+      if (state.toggles.triangles) {
+        // ΔABC (Incident triangle)
+        ctx.fillStyle = colors.triangleIncident;
+        ctx.beginPath();
+        ctx.moveTo(xA, yA);
+        ctx.lineTo(xB, yB);
+        ctx.lineTo(xC, yC);
+        ctx.closePath();
+        ctx.fill();
+
+        drawRightAngleMarker(ctx, xB, yB, xA, yA, xC, yC, 10);
+
+        // ΔAEC (Secondary tangent triangle)
+        if (state.t >= 0.7) {
+          ctx.fillStyle = colors.triangleSecondary;
+          ctx.beginPath();
+          ctx.moveTo(xA, yA);
+          ctx.lineTo(xE, yE);
+          ctx.lineTo(xC, yC);
+          ctx.closePath();
+          ctx.fill();
+
+          drawRightAngleMarker(ctx, xE, yE, xA, yA, xC, yC, 10);
+        }
+      }
+
+      // 2. Normals and Angle Arcs
+      if (state.toggles.normals) {
+        ctx.strokeStyle = colors.normal;
         ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1.2;
 
+        // Normal at A
         ctx.beginPath();
-        ctx.moveTo(ptA.x, ptA.y - 120);
-        ctx.lineTo(ptA.x, ptA.y + 120);
+        ctx.moveTo(xA, yA - 140 * scale);
+        ctx.lineTo(xA, yA + (state.mode === 'refraction' && !p.isTIR ? 140 * scale : 40 * scale));
         ctx.stroke();
 
+        // Normal at C
         ctx.beginPath();
-        ctx.moveTo(ptC.x, ptC.y - 120);
-        ctx.lineTo(ptC.x, ptC.y + 120);
+        ctx.moveTo(xC, yC - 140 * scale);
+        ctx.lineTo(xC, yC + (state.mode === 'refraction' && !p.isTIR ? 140 * scale : 40 * scale));
         ctx.stroke();
-        ctx.restore();
+        ctx.setLineDash([]);
 
-        drawLabel("N", ptA.x - 14, ptA.y - 95, "#94a3b8", "italic 12px serif");
-        drawLabel("N'", ptA.x - 14, ptA.y + 105, "#94a3b8", "italic 12px serif");
-
-        // Light Rays (Incident, Reflected/Refracted)
-        if (state.showRays) {
-          ctx.save();
-          ctx.strokeStyle = '#38bdf8';
-          ctx.lineWidth = 1.5;
-
-          // Incident Ray at A
-          ctx.beginPath();
-          ctx.moveTo(ptA.x - rayDirInc.x * 200, ptA.y - rayDirInc.y * 200);
-          ctx.lineTo(ptA.x, ptA.y);
-          ctx.stroke();
-
-          // Incident Ray passing through B -> C
-          ctx.beginPath();
-          ctx.moveTo(ptB.x - rayDirInc.x * 120, ptB.y - rayDirInc.y * 120);
-          ctx.lineTo(ptC.x, ptC.y);
-          ctx.stroke();
-
-          // Outgoing Rays from A and C
-          ctx.strokeStyle = state.mode === 'reflection' || isTIR ? '#34d399' : '#22d3ee';
-          ctx.beginPath();
-          ctx.moveTo(ptA.x, ptA.y);
-          ctx.lineTo(ptA.x + rayDirOut.x * 200, ptA.y + rayDirOut.y * 200);
-          ctx.stroke();
-
-          ctx.beginPath();
-          ctx.moveTo(ptC.x, ptC.y);
-          ctx.lineTo(ptC.x + rayDirOut.x * 200, ptC.y + rayDirOut.y * 200);
-          ctx.stroke();
-
-          ctx.restore();
-        }
-
-        // NCERT Reference Triangles ΔABC and ΔAEC (at t = τ)
-        if (state.showTriangles) {
-          // ΔABC
-          ctx.save();
-          ctx.fillStyle = 'rgba(56, 189, 248, 0.08)';
-          ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
-          ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          ctx.moveTo(ptA.x, ptA.y);
-          ctx.lineTo(ptB.x, ptB.y);
-          ctx.lineTo(ptC.x, ptC.y);
-          ctx.closePath();
-          ctx.fill();
-          ctx.stroke();
-          drawRightAngle(ptB, ptA, ptC, 10, '#38bdf8');
-
-          // ΔAEC
-          const colAEC = state.mode === 'reflection' || isTIR ? 'rgba(52, 211, 153, 0.08)' : 'rgba(34, 211, 238, 0.08)';
-          const strkAEC = state.mode === 'reflection' || isTIR ? 'rgba(52, 211, 153, 0.4)' : 'rgba(34, 211, 238, 0.4)';
-          ctx.fillStyle = colAEC;
-          ctx.strokeStyle = strkAEC;
-          ctx.beginPath();
-          ctx.moveTo(ptA.x, ptA.y);
-          ctx.lineTo(ptE.x, ptE.y);
-          ctx.lineTo(ptC.x, ptC.y);
-          ctx.closePath();
-          ctx.fill();
-          ctx.stroke();
-          drawRightAngle(ptE, ptA, ptC, 10, state.mode === 'reflection' || isTIR ? '#34d399' : '#22d3ee');
-          ctx.restore();
-        }
-
-        // Secondary Wavelets Emitted along AC
-        const tCur = state.t; // 0.0 to 2.0 tau
-        if (state.showWavelets && tCur > 0.0) {
-          ctx.save();
-          const numSources = 9;
-
-          for (let i = 0; i < numSources; i++) {
-            const frac = i / (numSources - 1);
-            const pSrcX = ptA.x + frac * (ptC.x - ptA.x);
-            const pSrcY = yBound;
-            const tStart = frac; // Time at which wavefront touches this point
-
-            if (tCur > tStart) {
-              const dt = tCur - tStart;
-              const rWavelet = dt * (state.mode === 'reflection' || isTIR ? v1_tau : v2_tau);
-
-              ctx.strokeStyle = 'rgba(251, 191, 36, 0.55)';
-              ctx.lineWidth = i === 0 ? 2 : 1;
-              if (i === 0) ctx.strokeStyle = 'rgba(251, 191, 36, 0.9)';
-
-              ctx.beginPath();
-              if (state.mode === 'reflection' || isTIR) {
-                // Semicircle above boundary
-                ctx.arc(pSrcX, pSrcY, rWavelet, Math.PI, 2 * Math.PI);
-              } else {
-                // Semicircle below boundary in Medium 2
-                ctx.arc(pSrcX, pSrcY, rWavelet, 0, Math.PI);
-              }
-              ctx.stroke();
-
-              // Source point dot
-              ctx.fillStyle = '#fbbf24';
-              ctx.beginPath();
-              ctx.arc(pSrcX, pSrcY, 2.5, 0, 2 * Math.PI);
-              ctx.fill();
-            }
-          }
-          ctx.restore();
-        }
-
-        // Corrected Incident Wavefront Dynamics (for 0 <= t <= 1)
-        if (tCur <= 1.0) {
-          // Contact point P on interface sweeps strictly from A to C:
-          const curP = {
-            x: ptA.x + tCur * (ptC.x - ptA.x),
-            y: yBound
-          };
-          // Opposite edge B travels along the ray towards C:
-          const curB = {
-            x: ptB.x + tCur * (ptC.x - ptB.x),
-            y: ptB.y + tCur * (ptC.y - ptB.y)
-          };
-
-          // Draw the Incident Wavefront segment in Medium 1
-          ctx.save();
-          ctx.strokeStyle = '#00f5ff';
-          ctx.lineWidth = 3.5;
-          ctx.shadowColor = '#00f5ff';
-          ctx.shadowBlur = 8;
-          ctx.beginPath();
-          ctx.moveTo(curP.x, curP.y);
-          ctx.lineTo(curB.x, curB.y);
-          ctx.stroke();
-
-          // Emphasize wavefront leading contact dot on interface
-          ctx.fillStyle = '#38bdf8';
-          ctx.beginPath();
-          ctx.arc(curP.x, curP.y, 4, 0, 2 * Math.PI);
-          ctx.fill();
-          ctx.restore();
-
-          // Optional label at t = 0
-          if (tCur < 0.1) {
-            drawLabel("Incident Wavefront AB", ptB.x - 30, ptB.y - 12, '#38bdf8', 'bold 12px sans-serif');
-          }
-        }
-
-        // Tangent Envelope CE Dynamics (for t >= 1.0)
-        if (state.showEnvelope && tCur >= 0.98) {
-          const dtPost = tCur - 1.0;
-          const dispPost = dtPost * (state.mode === 'reflection' || isTIR ? v1_tau : v2_tau);
-
-          const curE = {
-            x: ptE.x + rayDirOut.x * dispPost,
-            y: ptE.y + rayDirOut.y * dispPost
-          };
-          const curC = {
-            x: ptC.x + rayDirOut.x * dispPost,
-            y: ptC.y + rayDirOut.y * dispPost
-          };
-
-          ctx.save();
-          ctx.strokeStyle = '#34d399';
-          ctx.lineWidth = 3.5;
-          ctx.shadowColor = '#34d399';
-          ctx.shadowBlur = 10;
-          ctx.beginPath();
-          ctx.moveTo(curE.x, curE.y);
-          ctx.lineTo(curC.x, curC.y);
-          ctx.stroke();
-          ctx.restore();
-
-          if (tCur <= 1.08) {
-            drawLabel("Refracted/Reflected Envelope CE", (curE.x + curC.x) / 2 + 10, (curE.y + curC.y) / 2 - 10, '#34d399', 'bold 12px sans-serif');
-          }
-        }
-
-        // Vertex Labels (A, B, C, E)
-        drawLabel("A", ptA.x - 16, ptA.y - 8, "#38bdf8", "bold 15px sans-serif");
-        drawLabel("C", ptC.x + 8, ptC.y - 8, "#38bdf8", "bold 15px sans-serif");
-        drawLabel("B", ptB.x - 14, ptB.y - 8, "#38bdf8", "bold 14px sans-serif");
-        
-        if (state.mode === 'reflection' || isTIR) {
-          drawLabel("E", ptE.x - 18, ptE.y - 6, "#34d399", "bold 15px sans-serif");
-        } else {
-          drawLabel("E", ptE.x - 18, ptE.y + 18, "#22d3ee", "bold 15px sans-serif");
-        }
-
-        // Dimension / Velocity markers
-        if (Math.abs(tCur - 1.0) < 0.25 || !state.isPlaying) {
-          const midBC = { x: (ptB.x + ptC.x) / 2, y: (ptB.y + ptC.y) / 2 };
-          drawLabel("BC = v₁τ", midBC.x + 8, midBC.y - 6, "#7dd3fc", "italic 11px sans-serif");
-
-          const midAE = { x: (ptA.x + ptE.x) / 2, y: (ptA.y + ptE.y) / 2 };
-          const txtAE = state.mode === 'reflection' || isTIR ? "AE = v₁τ" : "AE = v₂τ";
-          drawLabel(txtAE, midAE.x - 45, midAE.y + (state.mode === 'reflection' ? -6 : 14), "#fbbf24", "italic 11px sans-serif");
-        }
-
-        // Angle Arcs: i and r
-        ctx.save();
-        ctx.strokeStyle = '#38bdf8';
-        ctx.lineWidth = 1.5;
-
-        // Angle i at A (between ray and Normal N)
-        ctx.beginPath();
-        ctx.arc(ptA.x, ptA.y, 40, -Math.PI / 2, -Math.PI / 2 + radI);
-        ctx.stroke();
-        drawLabel("i", ptA.x + 12, ptA.y - 48, "#38bdf8", "italic bold 13px sans-serif");
-
-        // Angle i at C (in triangle ABC)
-        ctx.beginPath();
-        ctx.arc(ptC.x, ptC.y, 35, Math.PI, Math.PI + radI);
-        ctx.stroke();
-        drawLabel("i", ptC.x - 45, ptC.y - 8, "#38bdf8", "italic bold 12px sans-serif");
+        // Angle i at A (between incident ray and vertical normal)
+        drawAngleArc(ctx, xA, yA, -Math.PI/2 - iRad, -Math.PI/2, 42 * scale, 'i', '#fbbf24');
 
         // Angle r at A
-        if (state.mode === 'reflection' || isTIR) {
-          ctx.strokeStyle = '#34d399';
-          ctx.beginPath();
-          ctx.arc(ptA.x, ptA.y, 45, -Math.PI / 2 - radR, -Math.PI / 2);
-          ctx.stroke();
-          drawLabel("r", ptA.x - 24, ptA.y - 50, "#34d399", "italic bold 13px sans-serif");
+        if (state.mode === 'reflection' || p.isTIR) {
+          drawAngleArc(ctx, xA, yA, -Math.PI/2, -Math.PI/2 + rRad, 42 * scale, 'r', '#34d399');
         } else {
-          ctx.strokeStyle = '#22d3ee';
-          ctx.beginPath();
-          ctx.arc(ptA.x, ptA.y, 40, Math.PI / 2 - radR, Math.PI / 2);
-          ctx.stroke();
-          drawLabel("r", ptA.x + 12, ptA.y + 52, "#22d3ee", "italic bold 13px sans-serif");
+          drawAngleArc(ctx, xA, yA, Math.PI/2 - rRad, Math.PI/2, 42 * scale, 'r', '#38bdf8');
         }
-        ctx.restore();
       }
 
-      // Main Animation Frame
-      function animate(timestamp) {
-        if (!lastTimestamp) lastTimestamp = timestamp;
-        const delta = (timestamp - lastTimestamp) / 1000;
-        lastTimestamp = timestamp;
+      // 3. Rays
+      if (state.toggles.rays) {
+        const rayLen = 220 * scale;
+        // Ray arriving at A
+        drawArrow(ctx, xA - rayLen * kInc_x, yA - rayLen * kInc_y, xA, yA, colors.incidentRay);
+        // Ray arriving at C through B
+        drawArrow(ctx, xB - 90 * scale * kInc_x, yB - 90 * scale * kInc_y, xC, yC, colors.incidentRay);
+      }
 
-        if (state.isPlaying) {
-          state.t += delta * 0.35;
-          if (state.t > 2.0) {
-            state.t = 0.0;
+      if (state.t <= 1.0) {
+        // Continuous advancing incident wavefront in Medium 1:
+        // Position of contact point on interface: x_touch(t) = xA + (xC - xA) * t
+        const xTouch = xA + (xC - xA) * state.t;
+        const yTouch = interfaceY;
+
+        // The upper edge advances along ray direction from B to C:
+        // P_top(t) = B + (C - B) * t = B + k_inc * (v1 * t)
+        const xTop = xB + (xC - xB) * state.t;
+        const yTop = yB + (yC - yB) * state.t;
+
+        ctx.strokeStyle = colors.incidentWavefront;
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.moveTo(xTouch, yTouch);
+        ctx.lineTo(xTop, yTop);
+        ctx.stroke();
+
+        // Extension dashed line of plane wavefront
+        ctx.setLineDash([3, 3]);
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(xTop, yTop);
+        ctx.lineTo(xTop + 35 * scale * wInc_x, yTop + 35 * scale * wInc_y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      if (state.toggles.wavelets && state.t > 0) {
+        const numEmitters = 11;
+        for (let j = 0; j < numEmitters; j++) {
+          const u = j / (numEmitters - 1); // Parameter along interface from A (u=0) to C (u=1)
+          if (state.t >= u) {
+            const xEmitter = xA + u * (xC - xA);
+            const yEmitter = yA;
+            const elapsedTime = state.t - u;
+            const radius = vSecDist * elapsedTime;
+
+            ctx.lineWidth = j === 0 ? 2.5 : 1.2;
+            ctx.strokeStyle = j === 0 ? colors.waveletArc : colors.waveletArcPast;
+
+            ctx.beginPath();
+            if (state.mode === 'reflection' || p.isTIR) {
+              // Half-circle in Medium 1 (upper half)
+              ctx.arc(xEmitter, yEmitter, radius, Math.PI, 2 * Math.PI, false);
+            } else {
+              // Half-circle in Medium 2 (lower half)
+              ctx.arc(xEmitter, yEmitter, radius, 0, Math.PI, false);
+            }
+            ctx.stroke();
+
+            // Emitter contact point marker
+            ctx.fillStyle = j === 0 ? '#818cf8' : '#64748b';
+            ctx.beginPath();
+            ctx.arc(xEmitter, yEmitter, 2.5, 0, 2 * Math.PI);
+            ctx.fill();
           }
-          timeSlider.value = state.t;
-          updateStatus();
         }
-
-        render();
-        animFrameId = requestAnimationFrame(animate);
       }
 
-      // Initialize Application
-      window.addEventListener('DOMContentLoaded', () => {
-        resizeCanvas();
-        initStaticMathLabels();
-        updateMathProof();
-        updateStatus();
-        animFrameId = requestAnimationFrame(animate);
-      });
+      if (state.toggles.envelope && state.t >= 0.95) {
+        const strokeCol = (state.mode === 'reflection' || p.isTIR) ? colors.reflectedWavefront : colors.refractedWavefront;
+        ctx.strokeStyle = strokeCol;
+        ctx.lineWidth = 3.5;
 
-    })();
+        // Refracted ray unit vector k_refr
+        const kRefr_x = Math.sin(rRad);
+        const kRefr_y = (state.mode === 'reflection' || p.isTIR) ? -Math.cos(rRad) : Math.cos(rRad);
+
+        if (state.t <= 1.05) {
+          // Exactly the NCERT CE wavefront tangent
+          ctx.beginPath();
+          ctx.moveTo(xC, yC);
+          ctx.lineTo(xE, yE);
+          ctx.stroke();
+
+          // Extension line to visually demonstrate tangency
+          ctx.setLineDash([3, 3]);
+          ctx.lineWidth = 1.5;
+          const extDx = xE - xC;
+          const extDy = yE - yC;
+          ctx.beginPath();
+          ctx.moveTo(xE, yE);
+          ctx.lineTo(xE + extDx * 0.35, yE + extDy * 0.35);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        } else {
+          // Uniform propagation of wavefront CE for t > 1.0
+          const forwardTime = state.t - 1.0;
+          const propDist = vSecDist * forwardTime;
+
+          const w1_x = xC + kRefr_x * propDist;
+          const w1_y = yC + kRefr_y * propDist;
+          const w2_x = xE + kRefr_x * propDist;
+          const w2_y = yE + kRefr_y * propDist;
+
+          ctx.beginPath();
+          ctx.moveTo(w1_x, w1_y);
+          ctx.lineTo(w2_x, w2_y);
+          ctx.stroke();
+        }
+      }
+
+      // 5. Reflected / Refracted Rays
+      if (state.toggles.rays && state.t >= 0.7) {
+        const rayCol = (state.mode === 'reflection' || p.isTIR) ? colors.reflectedRay : colors.refractedRay;
+        const kRefr_x = Math.sin(rRad);
+        const kRefr_y = (state.mode === 'reflection' || p.isTIR) ? -Math.cos(rRad) : Math.cos(rRad);
+        const rayOutLen = 170 * scale;
+
+        // Outgoing ray from A through E
+        drawArrow(ctx, xA, yA, xA + rayOutLen * kRefr_x, yA + rayOutLen * kRefr_y, rayCol);
+
+        // Outgoing ray from C (for t >= 1.0)
+        if (state.t >= 1.0) {
+          drawArrow(ctx, xC, yC, xC + rayOutLen * 0.75 * kRefr_x, yC + rayOutLen * 0.75 * kRefr_y, rayCol);
+        }
+      }
+
+      if (state.toggles.labels) {
+        ctx.font = 'bold 14px Inter, sans-serif';
+        drawLabelWithHalo(ctx, "A", xA - 18, yA + 20, '#f8fafc');
+        drawLabelWithHalo(ctx, "B", xB - 18, yB - 6, '#f8fafc');
+        drawLabelWithHalo(ctx, "C", xC + 10, yC + 20, '#f8fafc');
+
+        if (state.t >= 0.7) {
+          drawLabelWithHalo(ctx, "E", xE - (state.mode === 'reflection' || p.isTIR ? 18 : 20), yE + (state.mode === 'reflection' || p.isTIR ? -10 : 18), '#38bdf8');
+        }
+
+        ctx.font = '11px Fira Code, monospace';
+        const midBC_x = (xB + xC) / 2 + 15;
+        const midBC_y = (yB + yC) / 2;
+        drawLabelWithHalo(ctx, "v₁τ", midBC_x, midBC_y, '#fbbf24');
+
+        if (state.t >= 0.7) {
+          const midAE_x = (xA + xE) / 2 - 25;
+          const midAE_y = (yA + yE) / 2;
+          const vLabel = (state.mode === 'reflection' || p.isTIR) ? "v₁τ" : "v₂τ";
+          drawLabelWithHalo(ctx, vLabel, midAE_x, midAE_y, '#38bdf8');
+        }
+
+        ctx.font = '12px Inter, sans-serif';
+        drawLabelWithHalo(ctx, `Medium 1 (n₁ = ${state.n1.toFixed(2)}, speed v₁)`, 40, interfaceY - 20, '#94a3b8');
+        if (state.mode === 'refraction') {
+          drawLabelWithHalo(ctx, `Medium 2 (n₂ = ${state.n2.toFixed(2)}, speed v₂)`, 40, interfaceY + 30, '#64748b');
+        } else {
+          drawLabelWithHalo(ctx, `Reflecting Surface XY (Mirror)`, 40, interfaceY + 30, '#64748b');
+        }
+      }
+    }
+
+    function drawLabelWithHalo(ctx, text, x, y, col) {
+      ctx.save();
+      ctx.strokeStyle = '#020617';
+      ctx.lineWidth = 4;
+      ctx.lineJoin = 'round';
+      ctx.strokeText(text, x, y);
+      ctx.fillStyle = col;
+      ctx.fillText(text, x, y);
+      ctx.restore();
+    }
+
+    function drawArrow(ctx, fromX, fromY, toX, toY, color) {
+      const headlen = 10;
+      const angle = Math.atan2(toY - fromY, toX - fromX);
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(fromX, fromY);
+      ctx.lineTo(toX, toY);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(toX, toY);
+      ctx.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
+      ctx.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawRightAngleMarker(ctx, cornerX, cornerY, p1X, p1Y, p2X, p2Y, size) {
+      const d1x = (p1X - cornerX);
+      const d1y = (p1Y - cornerY);
+      const len1 = Math.hypot(d1x, d1y);
+      if (len1 === 0) return;
+      const u1x = (d1x / len1) * size;
+      const u1y = (d1y / len1) * size;
+
+      const d2x = (p2X - cornerX);
+      const d2y = (p2Y - cornerY);
+      const len2 = Math.hypot(d2x, d2y);
+      if (len2 === 0) return;
+      const u2x = (d2x / len2) * size;
+      const u2y = (d2y / len2) * size;
+
+      ctx.save();
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(cornerX + u1x, cornerY + u1y);
+      ctx.lineTo(cornerX + u1x + u2x, cornerY + u1y + u2y);
+      ctx.lineTo(cornerX + u2x, cornerY + u2y);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawAngleArc(ctx, cx, cy, startA, endA, radius, label, col) {
+      ctx.save();
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, startA, endA);
+      ctx.stroke();
+
+      const midA = (startA + endA) / 2;
+      const textDist = radius + 14;
+      const tx = cx + textDist * Math.cos(midA);
+      const ty = cy + textDist * Math.sin(midA);
+      ctx.font = 'italic 12px Inter, sans-serif';
+      drawLabelWithHalo(ctx, label, tx - 4, ty + 4, col);
+      ctx.restore();
+    }
+
+    function animationLoop(timestamp) {
+      if (!state.lastTimestamp) state.lastTimestamp = timestamp;
+      const dt = (timestamp - state.lastTimestamp) / 1000;
+      state.lastTimestamp = timestamp;
+
+      if (state.isPlaying) {
+        state.t += dt * 0.45 * state.speed;
+        if (state.t > state.tMax) {
+          state.t = 0.0;
+        }
+        timeSlider.value = state.t;
+        updateBadgesAndMath();
+      }
+
+      draw();
+      requestAnimationFrame(animationLoop);
+    }
+
+    // Initialize application on window load
+    window.addEventListener('load', () => {
+      lucide.createIcons();
+      renderStaticMath();
+      setMode('refraction');
+      resizeCanvas();
+      updateBadgesAndMath();
+      requestAnimationFrame(animationLoop);
+    });
   </script>
 </body>
 </html>
