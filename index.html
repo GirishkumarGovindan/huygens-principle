@@ -33,7 +33,7 @@
   <style>
     .math-display {
       overflow-x: auto;
-      padding: 0.5rem 0;
+      padding: 0.35rem 0;
       scrollbar-width: thin;
     }
     .katex {
@@ -100,9 +100,9 @@
         <!-- Legend / Diagram Indicator Overlay -->
         <div class="absolute bottom-3 left-3 right-3 z-20 pointer-events-none flex flex-wrap justify-between items-end gap-2 text-[11px] text-slate-300">
           <div class="bg-slate-950/85 backdrop-blur px-3 py-1.5 rounded-xl border border-slate-800 flex items-center gap-3">
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span> Incident Wavefront (AB)</span>
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Secondary Wavelet</span>
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Reflected/Refracted Front (CE)</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span> Incident Front (AB)</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Secondary Wavelets</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Envelope Front (CE)</span>
           </div>
           <div class="bg-slate-950/85 backdrop-blur px-2.5 py-1 rounded-lg border border-slate-800 font-mono text-[11px] text-cyan-400">
             t = <span id="time-val-readout">0.00</span> &tau;
@@ -245,8 +245,8 @@
         <div class="border border-cyan-900/40 bg-cyan-950/20 p-4 rounded-xl">
           <h4 class="font-bold text-cyan-300 text-base mb-1">1. Huygens' Principle Postulates</h4>
           <ol class="list-decimal pl-5 space-y-1 text-slate-300 text-xs md:text-sm">
-            <li>Each point on a wavefront acts as a secondary source of disturbance, emitting secondary spherical wavelets that spread out with the speed of light in that medium.</li>
-            <li>The forward tangential envelope to these secondary wavelets at any later time gives the new position and shape of the wavefront.</li>
+            <li>Each point on a primary wavefront acts as a source of secondary spherical wavelets spreading out with the speed of light in that medium.</li>
+            <li>The forward tangential surface (envelope) touching these wavelets at time $t$ gives the new position of the wavefront.</li>
           </ol>
         </div>
 
@@ -583,7 +583,6 @@
 
             const alertBox = document.createElement('div');
             alertBox.className = 'p-2.5 rounded-lg bg-amber-950/50 border border-amber-600/60 text-amber-200 text-xs';
-            alertBox.innerHTML = `Condition met: Light going from denser to rarer medium with $i > i_c$.`;
             renderMath(alertBox, `\\text{Since } i (${state.angleI_deg.toFixed(1)}^\\circ) > i_c (${critAngle.toFixed(1)}^\\circ), \\text{ total internal reflection occurs.}`);
 
             const mathBox = document.createElement('div');
@@ -697,16 +696,16 @@
 
         // Boundary line XY
         const yBound = h * 0.52;
-        const xA = w * 0.32;
-        const L_AC = Math.min(w * 0.38, 280);
+        const xA = w * 0.30;
+        const L_AC = Math.min(w * 0.40, 300);
         const xC = xA + L_AC;
 
         // Visual distinction for Medium 1 and 2
         if (state.mode === 'refraction') {
-          ctx.fillStyle = 'rgba(15, 23, 42, 0.4)';
+          ctx.fillStyle = 'rgba(15, 23, 42, 0.45)';
           ctx.fillRect(0, 0, w, yBound);
 
-          const alpha2 = Math.min(0.7, 0.15 + (state.n2 - 1.0) * 0.3);
+          const alpha2 = Math.min(0.7, 0.15 + (state.n2 - 1.0) * 0.28);
           ctx.fillStyle = `rgba(14, 116, 144, ${alpha2})`;
           ctx.fillRect(0, yBound, w, h - yBound);
         }
@@ -745,12 +744,12 @@
           drawLabel("Reflecting Surface (Mirror)", 45, yBound - 15, '#7dd3fc', '12px sans-serif');
         }
 
-        // Geometric Triangles & Huygens Wavefront Math
+        // Exact NCERT Geometry Calculations
         const v1_tau = L_AC * sinI; // Length BC = v1 * tau
         const ptA = { x: xA, y: yBound };
         const ptC = { x: xC, y: yBound };
 
-        // Point B: Incident wavefront edge at t = 0
+        // Point B: Incident wavefront edge at t = 0 (such that BC = v1 * tau and angle B = 90 deg)
         const ptB = {
           x: ptC.x - v1_tau * sinI,
           y: ptC.y - v1_tau * cosI
@@ -790,7 +789,7 @@
           };
         }
 
-        // Ray unit vectors
+        // Incident and Outgoing unit ray vectors
         const rayDirInc = { x: sinI, y: cosI };
         const rayDirOut = state.mode === 'reflection' || isTIR ? { x: sinR, y: -cosR } : { x: sinR, y: cosR };
 
@@ -800,13 +799,11 @@
         ctx.lineWidth = 1;
         ctx.setLineDash([4, 4]);
 
-        // Normal at A
         ctx.beginPath();
         ctx.moveTo(ptA.x, ptA.y - 120);
         ctx.lineTo(ptA.x, ptA.y + 120);
         ctx.stroke();
 
-        // Normal at C
         ctx.beginPath();
         ctx.moveTo(ptC.x, ptC.y - 120);
         ctx.lineTo(ptC.x, ptC.y + 120);
@@ -828,7 +825,7 @@
           ctx.lineTo(ptA.x, ptA.y);
           ctx.stroke();
 
-          // Incident Ray at B -> C
+          // Incident Ray passing through B -> C
           ctx.beginPath();
           ctx.moveTo(ptB.x - rayDirInc.x * 120, ptB.y - rayDirInc.y * 120);
           ctx.lineTo(ptC.x, ptC.y);
@@ -891,7 +888,7 @@
             const frac = i / (numSources - 1);
             const pSrcX = ptA.x + frac * (ptC.x - ptA.x);
             const pSrcY = yBound;
-            const tStart = frac; // Arrival of wavefront at this point
+            const tStart = frac; // Time at which wavefront touches this point
 
             if (tCur > tStart) {
               const dt = tCur - tStart;
@@ -921,34 +918,45 @@
           ctx.restore();
         }
 
-        // Advancing Dynamic Wavefront
+        // Corrected Incident Wavefront Dynamics (for 0 <= t <= 1)
         if (tCur <= 1.0) {
-          // Approaching wavefront: moves along incident ray direction
-          const disp = tCur * v1_tau;
-          const curA = {
-            x: ptA.x + rayDirInc.x * disp,
-            y: ptA.y + rayDirInc.y * disp
+          // Contact point P on interface sweeps strictly from A to C:
+          const curP = {
+            x: ptA.x + tCur * (ptC.x - ptA.x),
+            y: yBound
           };
+          // Opposite edge B travels along the ray towards C:
           const curB = {
-            x: ptB.x + rayDirInc.x * disp,
-            y: ptB.y + rayDirInc.y * disp
+            x: ptB.x + tCur * (ptC.x - ptB.x),
+            y: ptB.y + tCur * (ptC.y - ptB.y)
           };
 
-          // Incident Wavefront line
+          // Draw the Incident Wavefront segment in Medium 1
           ctx.save();
           ctx.strokeStyle = '#00f5ff';
           ctx.lineWidth = 3.5;
           ctx.shadowColor = '#00f5ff';
           ctx.shadowBlur = 8;
           ctx.beginPath();
-          ctx.moveTo(curA.x - (ptB.x - ptA.x) * (1 - tCur), curA.y - (ptB.y - ptA.y) * (1 - tCur));
+          ctx.moveTo(curP.x, curP.y);
           ctx.lineTo(curB.x, curB.y);
           ctx.stroke();
+
+          // Emphasize wavefront leading contact dot on interface
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath();
+          ctx.arc(curP.x, curP.y, 4, 0, 2 * Math.PI);
+          ctx.fill();
           ctx.restore();
+
+          // Optional label at t = 0
+          if (tCur < 0.1) {
+            drawLabel("Incident Wavefront AB", ptB.x - 30, ptB.y - 12, '#38bdf8', 'bold 12px sans-serif');
+          }
         }
 
-        // Tangent Envelope CE (shown at t >= 1.0)
-        if (state.showEnvelope && tCur >= 0.96) {
+        // Tangent Envelope CE Dynamics (for t >= 1.0)
+        if (state.showEnvelope && tCur >= 0.98) {
           const dtPost = tCur - 1.0;
           const dispPost = dtPost * (state.mode === 'reflection' || isTIR ? v1_tau : v2_tau);
 
@@ -972,8 +980,8 @@
           ctx.stroke();
           ctx.restore();
 
-          if (tCur <= 1.05) {
-            drawLabel("Reflected/Refracted Envelope CE", (curE.x + curC.x) / 2 + 10, (curE.y + curC.y) / 2 - 10, '#34d399', 'bold 12px sans-serif');
+          if (tCur <= 1.08) {
+            drawLabel("Refracted/Reflected Envelope CE", (curE.x + curC.x) / 2 + 10, (curE.y + curC.y) / 2 - 10, '#34d399', 'bold 12px sans-serif');
           }
         }
 
@@ -988,13 +996,11 @@
           drawLabel("E", ptE.x - 18, ptE.y + 18, "#22d3ee", "bold 15px sans-serif");
         }
 
-        // Dimension / Velocity markers at t = tau
+        // Dimension / Velocity markers
         if (Math.abs(tCur - 1.0) < 0.25 || !state.isPlaying) {
-          // Label BC = v1*tau
           const midBC = { x: (ptB.x + ptC.x) / 2, y: (ptB.y + ptC.y) / 2 };
           drawLabel("BC = v₁τ", midBC.x + 8, midBC.y - 6, "#7dd3fc", "italic 11px sans-serif");
 
-          // Label AE = v2*tau or v1*tau
           const midAE = { x: (ptA.x + ptE.x) / 2, y: (ptA.y + ptE.y) / 2 };
           const txtAE = state.mode === 'reflection' || isTIR ? "AE = v₁τ" : "AE = v₂τ";
           drawLabel(txtAE, midAE.x - 45, midAE.y + (state.mode === 'reflection' ? -6 : 14), "#fbbf24", "italic 11px sans-serif");
@@ -1004,7 +1010,8 @@
         ctx.save();
         ctx.strokeStyle = '#38bdf8';
         ctx.lineWidth = 1.5;
-        // Angle i at A (between incident ray and Normal N)
+
+        // Angle i at A (between ray and Normal N)
         ctx.beginPath();
         ctx.arc(ptA.x, ptA.y, 40, -Math.PI / 2, -Math.PI / 2 + radI);
         ctx.stroke();
@@ -1040,10 +1047,9 @@
         lastTimestamp = timestamp;
 
         if (state.isPlaying) {
-          // Advance time smoothly (1 tau takes ~3 seconds)
           state.t += delta * 0.35;
           if (state.t > 2.0) {
-            state.t = 0.0; // Loop seamlessly
+            state.t = 0.0;
           }
           timeSlider.value = state.t;
           updateStatus();
